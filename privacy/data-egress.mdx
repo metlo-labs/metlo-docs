@@ -1,0 +1,38 @@
+---
+title: "Data Egress"
+---
+
+Metlo collects aggregated usage data from self-hosted instances. We do this to
+analyze feature usage, plan our roadmap and handle billing. All the data we
+collect is anonymized and aggregated. Optionally, If you choose to give us your
+email to receive updates about Metlo it is also included.
+
+### What data does Metlo collect?
+
+Here is an example of usage data that gets sent to our servers:
+
+```json JSON
+{
+  "instanceUUID": "44aa04d0-fef6-45c0-b742-d0ba1b455c32",
+  "email": "",
+  "skippedEmail": true,
+  "eventName": "instanceAggregatedStats",
+  "data": {
+    "numEndpoints": 127,
+    "numHosts": 3,
+    "openAlerts": 28,
+    "openHighRiskAlerts": 5,
+    "piiDataFields": 32
+  }
+}
+```
+
+<Note>
+  _For the enterprise self-hosted version of Metlo your `LICENSEKEY` is also
+  included in the payload_
+</Note>
+
+### Can I disable all usage data collection?
+
+To disable all usage data collection and have an air gapped instance you can set
+the environment variable `DISABLE_LOGGING_STATS=true` when starting Metlo.

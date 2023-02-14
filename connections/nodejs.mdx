@@ -1,0 +1,37 @@
+---
+title: "Node"
+---
+
+### Installation
+
+Currently Metlo's Node Agent supports 3 frameworks:
+
+- Express
+- Koa
+- Fastify
+
+It can be installed from `npm` by running:
+
+```bash Bash
+npm install metlo
+```
+
+Or from `yarn` by running:
+
+```bash Bash
+yarn install metlo
+```
+
+### Configuration
+
+Metlo can be added to any of the supported frameworks by adding the following
+lines as the start of your main script:
+
+```js JavaScript
+import metlo from "metlo"
+metlo(<YOUR_METLO_API_KEY>, "http://<YOUR_METLO_HOST>:8081")
+
+// Or using require...
+var metlo = require("metlo").default
+metlo(<YOUR_METLO_API_KEY>, "http://<YOUR_METLO_HOST>:8081")
+```

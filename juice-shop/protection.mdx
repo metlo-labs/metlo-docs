@@ -1,0 +1,21 @@
+---
+title: "Protection"
+---
+
+### Overview
+
+Metlo can detect, categorize, and provide detailed context for attacks that are sent to the Juice Shop server. You can view all the attacks that Metlo has detected on the [Protection](https://app.metlo.com/protection) page. Here, you can see the SQL Injection attacks you sent earlier via the Testing feature. 
+
+![3680](/images/828395c-Screen_Shot_2023-01-28_at_4.39.13_PM.png "Screen Shot 2023-01-28 at 4.39.13 PM.png") 
+
+### Detail
+
+You can click on the attack to get a more detailed view. Metlo stores the traces that were captured as part of an attack so you can dig into what requests triggered the attack. Also, you can view metadata such as the exact data in the request which caused the attack and where the request came from.
+
+![3680](/images/578e71f-Screen_Shot_2023-01-28_at_4.43.28_PM.png "Screen Shot 2023-01-28 at 4.43.28 PM.png") 
+
+### Juice Shop Challenges
+
+`Login Admin` is a Juice Shop challenge which requires the user to use SQL injection to login as an admin account. After completing this challenge, you can see this attack on Metlo's [Protection page](https://app.metlo.com/protection) as `SQL Injection Attack`.
+
+Metlo can also detect Cross Site Scripting attack payloads which are sent to the Juice Shop server. `Server-side XSS Protection` is a challenge which requires the user to send a persisted XSS attack payload to the server. After completing this challenge, you can see this attack on Metlo's [Protection page](https://app.metlo.com/protection) as `Cross-Site Scripting`.

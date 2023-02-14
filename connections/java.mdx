@@ -1,0 +1,74 @@
+---
+title: "Java"
+---
+
+Currently Metlo's Java Agent supports 1 framework:
+
+- Spring (and by extension Spring Boot)
+
+Its available for download from
+[maven central](https://repo1.maven.org/maven2/com/metlo/spring/)
+
+### Installation
+
+You can add Metlo via either Maven or Gradle:
+
+Gradle:
+
+```Gradle Gradle
+dependencies { .... implementation com.metlo.spring:0.3 }
+```
+
+Maven:
+
+```XML XML
+<dependencies> .... <dependency> <groupId>com.metlo</groupId>
+<artifactId>spring</artifactId> <version>0.3</version> <scope>compile</scope>
+</dependency>
+
+</dependencies>
+```
+
+### Usage
+
+Metlo for Spring/Boot provides a lightweight filter for spring based
+applications and can be included as any other filter would. The filter needs to
+be provided with the METLO collector url, and the METLO API Key as parameters.
+
+#### Example
+
+```java Java
+package com.example.demo;
+
+import org.springframework.boot.web.servlet.FilterRegistrationBean;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+
+// Metlo imprted here import com.metlo.spring.Metlo;
+
+@Configuration public class FilterConfig {
+
+    @Bean
+    public FilterRegistrationBean<Metlo> loggingFilter() {
+        FilterRegistrationBean<Metlo> registrationBean = new FilterRegistrationBean<>();
+
+        // Metlo registered as a filter here
+        registrationBean.setFilter(new Metlo("http://<YOUR_METLO_HOST>:8081", "<YOUR_METLO_API_KEY>"));
+        registrationBean.setOrder(2);
+        return registrationBean;
+    }
+
+}
+```
+
+#### Configuration
+
+#### Rate Limiting
+
+Metlo rate limits itself to 10 requests/s by default. In case the system has the
+capacity to handle more and/or a larger number of traces needs to be reported
+for some reason, that can be customised in the constructor with the signature:
+
+```java Java
+public Metlo(String host, String api_key, Integer rps)
+```

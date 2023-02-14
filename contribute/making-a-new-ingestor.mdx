@@ -1,0 +1,65 @@
+---
+title: "Making a New Ingestor"
+---
+
+Ingestors are stored in the
+[/ingestors](https://github.com/metlo-labs/metlo/blob/master/ingestors) folder
+in the Metlo repo. To make a new Ingestor, make a new folder there with the
+files you need. Your code should then send trace data to Metlo's backend.
+
+Metlo has a single interface to collect trace data, to send a new trace you can
+send a `POST` request to Metlo's backend service:
+
+```bash cURL
+curl -X POST 'http://localhost:8081/api/v1/log-request/batch' \
+-H 'Content-Type: application/json' \
+-H 'Authorization: <YOUR_API_KEY>' \
+--data-raw '<TRACE_DATA>'
+```
+
+The trace data has the following format:
+
+```json JSON
+[
+  {
+    "request": {
+      "url": {
+        "host": "test-payment-processor.metlo.com",
+        "path": "/user/fe483819-ab09-41d8-92ed-79eb86308be0",
+        "parameters": [
+          {
+            "name": "foo",
+            "value": "bar"
+          }
+        ]
+      },
+      "headers": [
+        {
+          "name": "foo",
+          "value": "bar"
+        }
+      ],
+      "method": "GET",
+      "body": "baz"
+    },
+    "response": {
+      "status": 200,
+      "headers": [
+        {
+          "name": "content-type",
+          "value": "application/json; charset=utf-8"
+        }
+      ],
+      "body": "{\"foo\": \"bar\"}"
+    },
+    "meta": {
+      "environment": "production",
+      "incoming": true,
+      "source": "15.193.250.127",
+      "sourcePort": 17929,
+      "destination": "76.47.25.189",
+      "destinationPort": 443
+    }
+  }
+]
+```

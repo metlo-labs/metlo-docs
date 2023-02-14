@@ -1,0 +1,133 @@
+---
+title: "Writing a Test"
+---
+
+You can write tests for your endpoints in a simple YAML based DSL. These tests
+can be run using either the CLI or inside Metlo's UI.
+
+### Creating a New Test
+
+To create a new test make a new yaml file (i.e. `user_endpoint_test.yaml`).
+
+#### 1. Define Metadata
+
+The first step is to define some metadata for your test:
+
+```yaml YAML
+id: www-example-com-user-test
+
+meta:
+  name: www.example.com/user Test Auth
+  severity: LOW
+  tags:
+    - BROKEN_AUTHENTICATION
+```
+
+- **id** - A unique id for your test. This can be any string that matches the
+  pattern `[A-Za-z0-9-_]+`
+- **meta.name \[optional\]** \- A name for your test
+- **meta.severity \[optional\]** \- `LOW | MEDIUM | HIGH | CRITICAL`
+- **meta.tags \[optional\]** \- A list of tags for your test
+
+#### 2. Add your Test
+
+A test is a set of steps, where each step has an HTTP request and a set of
+assertions. Heres an example of a test that sends a `GET` request to
+[https://example.com](https://example.com) and verifies that the response status
+is `200` and the content length header is `"648"`.
+
+_All the fields in the `resp` object are documented
+[here](/advanced-tests#resp-object)_
+
+```yaml YAML
+test:
+  - request:
+      method: GET
+      url: https://example.com
+    assert:
+      - key: resp.status
+        value: 200
+      - key: resp.headers['content-length']
+        value: "648"
+```
+
+You can also specify query params, headers and data for a request.
+
+```yaml YAML
+test:
+  - request:
+      method: POST
+      url: https://test-payment-processor.metlo.com/user/billing
+      headers:
+        - name: Content-Type
+          value: application/json
+        - name: Authorization
+          value: ...
+      data: |-
+        {
+            "ccn": "...",
+            "cc_exp": "...",
+            "cc_code": "..."
+        }
+    assert:
+      - key: resp.status
+        value: 200
+```
+
+A complete test might look something like this:
+
+```yaml YAML
+id: test-payment-processor-metlo.com-user-billing
+
+meta:
+  name: test-payment-processor.metlo.com/user/billing Test Auth
+  severity: CRITICAL
+  tags:
+    - BROKEN_AUTHENTICATION
+
+test:
+  - request:
+      method: POST
+      url: https://test-payment-processor.metlo.com/user/billing
+      headers:
+        - name: Content-Type
+          value: application/json
+        - name: Authorization
+          value: ...
+      data: |-
+        { "ccn": "...", "cc_exp": "...", "cc_code": "..." }
+    assert:
+      - key: resp.status
+        value: 200
+  - request:
+      method: POST
+      url: https://test-payment-processor.metlo.com/user/billing
+      headers:
+        - name: Content-Type
+          value: application/json
+      data: |-
+        { "ccn": "...", "cc_exp": "...", "cc_code": "..." }
+    assert:
+      - key: resp.status
+        value:
+          - 401
+          - 403
+```
+
+### Run a Test
+
+You can run your test with the Metlo CLI:
+
+```bash Bash
+$ metlo test run user_endpoint_test.yaml
+Running test at path "user_endpoint_test.yaml":
+✔ Done loading test...
+✔ Done running test...
+All Tests Succeeded!
+```
+
+### Making a Test in Metlo's UI
+
+You can make a test in Metlo's UI on the tests tab on the endpoint page.
+
+![3808](/images/31c8af8-136efa1-Screenshot_2022-12-26_at_7.14.04_PM.png "136efa1-Screenshot_2022-12-26_at_7.14.04_PM.png")

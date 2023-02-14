@@ -1,0 +1,111 @@
+---
+title: "GCP Traffic Mirroring"
+---
+
+Metlo supports capturing API traffic using
+[GCP Traffic Mirroring](https://cloud.google.com/vpc/packet-mirroring). This
+allows you to mirror traffic from a subnet, instance or tag.
+
+#### 1. Create a Service Account
+
+Metlo mirroring on GCP requires a service account with the following
+permissions:
+
+- Compute Admin
+- Compute packet mirroring admin
+- Compute packet mirroring user
+- IAP-secured Tunnel User
+
+#### 2. Install Metlo's CLI Tool
+
+You can install metlo from npm by running the following:
+
+```bash Bash
+$ npm i -g @metlo/cli
+```
+
+#### 3. Set up Traffic Mirroring
+
+To set up traffic mirroring run the following:
+
+```bash Bash
+$ metlo traffic-mirror gcp new
+✔ GCP Project Name · metlo-security
+✔ GCP Network to mirror · default
+✔ Select your GCP zone · us-central1-a
+✔ Path to GCP key file · <PATH TO GCP KEY FILE>
+✔ Validated account details
+Validated account details succesfully
+✔ Select your mirror source type · SUBNET
+✔ Enter the mirror source subnet name · default
+✔ Verified mirror source details
+✔ Created destination subnet
+✔ Created Firewall rule
+✔ Obtained router details
+✔ Mirror Instance Type · e2-standard-2
+✔ Metlo URL · http://<YOUR_METLO_HOST>:8081
+✔ Metlo API Key · <YOUR_METLO_API_KEY>
+✔ Created MIG for metlo
+✔ Created health check
+✔ Creating Backend service for packet mirroring
+✔ Created load balancer
+✔ Started packet mirroring
+```
+
+### Traffic Mirror additional items
+
+Simply run `metlo traffic-mirror gcp new`.
+
+Bash
+
+```bash Bash
+$ metlo traffic-mirror gcp new
+✔ GCP Project Name · metlo-security
+✔ GCP Network to mirror · default
+? Select your GCP zone …
+✔ Select your GCP zone · us-central1-a
+✔ Path to GCP key file · <PATH TO GCP KEY FILE>
+✔ Validated account details
+✔ Select Packet Mirroring instance · metlo-packet-mirroring-ABCD1234
+✔ Select your mirror source type · TAG
+✔ Enter the mirror source tag name · https-server
+✔ Updated packet mirroring
+✨  Done in 46.69s.
+```
+
+### List Mirrored items
+
+Currently mirrored items can be retrieved by `metlo traffic-mirror gcp list`
+
+```bash Bash
+$ metlo traffic-mirror gcp list
+✔ GCP Project Name · metlo-security
+✔ GCP Network to mirror · default
+? Select your GCP zone …
+✔ Select your GCP zone · us-central1-a
+✔ Path to GCP key file · <PATH TO GCP KEY FILE>
+✔ Validated account details
+✨  Done in 15.70s.
+ Metlo Mirroring Sessions
+```
+
+![1441](/images/c793811-Screenshot_2022-11-17_at_12.23.32_AM.png "Screenshot 2022-11-17 at 12.23.32 AM.png")
+
+### Removed mirrored item
+
+Mirrored items can be removed by `metlo traffic-mirror gcp remove`
+
+```bash Bash
+$ metlo traffic-mirror gcp remove
+✔ GCP Project Name · metlo-security
+✔ GCP Network to mirror · default
+? Select your GCP zone …
+✔ Select your GCP zone · us-central1-a
+✔ Path to GCP key file · <PATH TO GCP KEY FILE>
+✔ Validated account details
+✔ Select Packet Mirroring instance · metlo-packet-mirroring-ABCD1234
+✔ Select your mirror source type · INSTANCE
+✔ Enter the mirror source instance name to remove · <INSTANCE NAME>
+✔ Deleted resource from packet mirroring succesfully
+✨  Done in 60.01s.
+```

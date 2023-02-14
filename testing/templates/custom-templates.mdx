@@ -1,0 +1,126 @@
+---
+title: "Custom Templates"
+sidebarTitle: "Overview"
+---
+
+Metlo supports writing custom templates using Typescript. You can write and test
+your templates locally and push them to Metlo using the CLI
+([Setup Instructions](/installing-metlos-cli)).
+
+### Setting Up Your Environment
+
+The first step is to setup a node project to build your templates in. Be sure to
+have both Node and NPM installed before following these steps! We highly
+recommend using [nvm](https://github.com/nvm-sh/nvm).
+
+```bash Bash
+$ mkdir metlo-test-templates $ cd metlo-test-templates $ npm init
+```
+
+After setting up your project install `@metlo/testing` for the testing utility
+functions.
+
+```bash Bash
+$ npm install @metlo/testing
+```
+
+### Creating a New Template
+
+Although you can structure your templates however you want, since templates can
+have different versions we recommend structuring your template repository like
+this (with folders for templates and typescript files for each version):
+
+```
+metlo-test-templates/
+├── node_modules
+├── templates/
+│   ├── <TEMPLATE_NAME>/
+│   │   ├── v1.ts
+│   │   └── v2.ts
+└── package.json
+```
+
+First create a folder called templates in your project:
+
+```
+$ mkdir templates
+```
+
+After that create a folder inside it for your template, lets make a template
+that verifies if an endpoint always responds with CSP Headers called
+`VERIFY_CSP_HEADERS`.
+
+```
+$ cd templates $ mkdir VERIFY_CSP_HEADERS $ cd VERIFY_CSP_HEADERS $ touch v1.ts
+```
+
+Now you can open `v1.ts` in the editor of your choice and paste the following:
+
+```ts TypeScript
+import {
+  AssertionType,
+  GenTestEndpoint,
+  TestBuilder,
+  TestStepBuilder,
+} from "@metlo/testing";
+
+export default {
+  name: "VERIFY_CSP_HEADERS",
+  version: 1,
+  builder: (endpoint: GenTestEndpoint) => {
+    return new TestBuilder()
+      .setMeta({
+        name: `${endpoint.path} Has CSP Headers`,
+        severity: "MEDIUM",
+        tags: ["CSP_HEADERS"],
+      })
+      .addTestStep(
+        TestStepBuilder.sampleRequest(endpoint).assert({
+          type: AssertionType.JS,
+          value: "resp.headers['content-security-policy']",
+        })
+      );
+  },
+};
+```
+
+You can see a deeper overview of templates [here](/typescript-templates).
+
+### Generating a Test
+
+You can generate a test with this new template using the Metlo CLI.
+
+```bash Bash
+$ metlo test generate \
+ -t templates/VERIFY_CSP_HEADERS/v1.ts \
+ -h <ENDPOINT_HOST> \
+ -e <ENDPOINT_PATH> \
+ -p output.yaml
+
+# By Endpoint UUID
+
+$ metlo test generate \
+ -t templates/VERIFY_CSP_HEADERS/v1.ts \
+ -e <ENDPOINT_UUID> \
+ -p output.yaml
+```
+
+### Running Your Generated Test
+
+First fill in any values you need in `output.yaml`. After that, you can run the
+generated test by running the following:
+
+```bash Bash
+$ metlo test run output.yaml
+```
+
+### Pushing Your Templates to Metlo
+
+After you've verified that the template works, you can push your template to
+Metlo by running:
+
+```bash Bash
+$ metlo template push templates
+```
+
+This template should now be available in the Metlo UI.

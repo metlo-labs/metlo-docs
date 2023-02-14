@@ -1,0 +1,36 @@
+---
+title: "Endpoint Discovery"
+description: "After you connect your apps, Metlo scans your API traffic to give an overview of all your endpoints, the type of data they contain, whether they are authenticated or not and if they contain sensitive data. You can use endpoint discovery to find **every** API endpoint in your organization. This can guide your security program and can also surface endpoints that you didn't even know existed."
+---
+
+### Endpoint Overview
+
+The [endpoints](https://app.metlo.com/endpoints) page shows an overview of your endpoints and hosts. By default they are sorted "riskiest" first, where the endpoints with the most sensitive data are the riskiest endpoints. You can filter this list by:
+
+- Host
+- Risk Score
+- Sensitive Data Classes
+- Authenticated/Unauthenticated
+  ![3808](/images/d66e6e3-Screenshot_2022-11-26_at_5.03.22_PM.png "Screenshot 2022-11-26 at 5.03.22 PM.png")
+
+### Endpoint Details
+
+Each endpoint has a detail view where you can dig deeper into its characteristics. This page shows you the following details:
+
+- Number of PII Fields
+- Usage history
+- The last time this endpoint was used
+- Authenticated/Unauthenticated
+- Risk Score
+- Generated Open API Spec
+  ![3808](/images/83914ac-Screenshot_2022-11-26_at_5.33.42_PM.png "Screenshot 2022-11-26 at 5.33.42 PM.png")
+
+The Detected Fields tab lets you dig deeper into specific parts of the request and response. You can correct any errors in sensitive data classification on this page as well.
+
+![3808](/images/b2847ee-Screenshot_2022-11-26_at_5.34.34_PM.png "Screenshot 2022-11-26 at 5.34.34 PM.png")
+
+### Traces
+
+If you're investigating an issue, Metlo stores traces so you can dig into what traffic your endpoint is receiving. Traces more than an hour old are automatically deleted.
+
+![3808](/images/a4f1537-Screenshot_2022-11-26_at_6.11.37_PM.png "Screenshot 2022-11-26 at 6.11.37 PM.png")

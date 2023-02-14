@@ -1,0 +1,148 @@
+---
+title: "Development Guide"
+---
+
+### Setting Up Metlo Locally
+
+#### Requirements
+
+1. `node` version `18.7.0`. We recommend using
+   [nvm](https://github.com/nvm-sh/nvm) to manage node versions.
+2. `postgres` version `14`.
+3. `redis`
+
+#### Initial Setup
+
+```bash Bash
+# Clone Metlo
+$ git clone https://github.com/metlo-labs/metlo.git
+$ cd metlo
+
+# Install Yarn
+$ npm i -g yarn
+
+# Create a test database
+$ psql postgres://localhost:5432/postgres -c "CREATE DATABASE metlo_api_security;"
+
+# Build the common modules
+$ cd common
+$ yarn install && yarn build
+
+# Install npm packages for the frontend and backend
+$ cd ../frontend
+$ yarn
+$ cd ../backend
+$ yarn
+$ yarn run migration:run
+$ yarn build
+```
+
+#### Set up environment
+
+Create `.env` file in backend directory with the following environment
+variables:
+
+```
+DB_URL=<DB_CONNECTION_URL>
+ENCRYPTION_KEY=<ENCRYPTION_KEY>
+EXPRESS_SECRET="some_random_string"
+```
+
+To generate the `ENCRYPTION_KEY` run this python script:
+
+```py Python
+import secrets
+from base64 import b64encode
+
+print(b64encode(secrets.token_bytes(32)).decode("UTF-8"))
+```
+
+#### Start Services
+
+Finally, you can start each service in a different terminal window:
+
+**1. Start the frontend**
+
+```bash Bash
+$ cd frontend
+$ yarn dev
+```
+
+**2. Start the backend**
+
+```bash Bash
+$ cd backend
+$ yarn dev
+```
+
+**3. Start the collector service**
+
+```bash Bash
+$ cd backend
+$ yarn dev-collector
+```
+
+**4. Start the job scheduler**
+
+```bash Bash
+$ cd backend
+$ yarn start-jobs
+```
+
+**5. Start the analyzer**
+
+```bash Bash
+$ cd backend
+$ yarn start-analyzer
+```
+
+<Warning>
+Job Scheduler and Analyzer
+
+For changes in the backend to take effect in the Job Scheduler and Analyzer, the
+backend module must be rebuilt and the Job Scheduler and Analyzer must be
+restarted.
+
+</Warning>
+
+You should now be able to view the metlo frontend at
+[http://localhost:3000](http://localhost:3000) !
+
+#### Load test data
+
+Without any trace data your Metlo dashboard won't be very interesting! You can
+load test trace data by running the test ingestor:
+
+```bash Bash
+# Get an API Key from the backend
+$ curl -X POST 'http://localhost:3000/api/v1/keys/create' -H 'Content-Type: application/json' -d '{"name":"test-api-key"}'
+{"apiKey":"<YOUR_API_KEY>"}
+
+# Start the test ingestor
+$ cd ingestors/test_data
+$ virtualenv --python=python3 env
+$ source env/bin/activate
+$ pip install -r requirements.txt
+$ python main.py -b http://localhost:8081 -key <YOUR_API_KEY>
+```
+
+#### Migrations
+
+To add any changes to the database schema, you must create a migration. To
+create a new migration, run this command in the root of the backend directory:
+
+bash Bash
+
+```
+$ yarn run migration:create ./src/migrations/<MIGRATION_DESCRIPTION>
+```
+
+Running this command will add a new file to the `migrations` directory to which
+you will need to add queries to run for the migration. Afterwards, you will need
+to add the new migration class to the `migrations` array in the `AppDataSource`
+constructor options in the `backend/src/data-source.ts` file. To run any new
+migrations, you can run this command:
+
+```bash Bash
+$ yarn run migration:run
+```

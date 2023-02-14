@@ -1,0 +1,46 @@
+---
+title: "SQL Injection"
+---
+
+One of the big vulnerabilities that are present on the Juice Shop app are SQL
+Injection attacks. To test for and catch these `SQL Injection` vulnerabilities,
+you can use Metlo's powerful Testing feature.
+
+### 1. Setup
+
+You can use Metlo's CLI to push predefined templates for Juice Shop
+`SQL Injection`, `BOLA`, and `Broken Authentication` vulnerabilities.
+
+```bash Bash
+$ metlo juice-shop init-templates
+```
+
+Once the templates have been pushed to Metlo, you can view them in the
+[Testing page](https://app.metlo.com/tests?page=1&tab=templates). There are two
+types of SQL Injection templates: `JUICE_SHOP_SQLI` which checks if an endpoint
+returns a non error status code for requests with SQL Injection payloads and
+`JUICE_SHOP_SQLI_TIME_BASED` which sends Time-based SQL Injection payloads and
+checks if the database is forced to wait for a longer time interval.
+
+### 2. Create Test
+
+Next, you can create a test from your new `JUICE_SHOP_SQLI` template. Go to the
+[Endpoints page](https://app.metlo.com/endpoints) in the Metlo Web App and
+search for this endpoint `/rest/user/login`. Go to the Endpoint Overview page
+for that endpoint and click on the `Tests` tab. Now, click `Generate Test` and
+`JUICE_SHOP_SQLI` on the drop-down menu. You should now see the test yaml which
+was generated from the template you pushed earlier. If you want to read in more
+depth about how the Testing feature works, you can check out our docs on
+[writing a test](/writing-a-test).
+
+### 3. Run Test
+
+Now, you can hit the `Run` button to see if the tests pass. One of the request
+assertions failed because the request successfully logged in as an admin user
+using a SQL injection payload for the email field.
+
+You can also create a test for Time-based SQL Injection attacks. Follow the same
+directions as in Steps 2 and 3 but when clicking `Generate Test`, select the
+`JUICE_SHOP_SQLI_TIME_BASED` option from the drop-down menu instead.
+
+![3680](/images/4b69d7c-Screen_Shot_2023-01-28_at_4.29.03_PM.png "Screen Shot 2023-01-28 at 4.29.03 PM.png")
