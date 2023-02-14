@@ -1,0 +1,95 @@
+---
+title: "Advanced Tests"
+---
+
+### Resp Object
+
+You probably want to make assertions on things other than the response status!
+The entire response object looks like this:
+
+```json JSON
+{
+    data: "...",
+    status: 200,
+    statusText: "OK",
+    headers: {
+        "content-type": "application/json",
+        ...
+    }
+}
+```
+
+### Complex Assertions
+
+If you want to write more complex assertions you can use Javascript expressions
+instead of specifying a `key` and a `value`. If the expression resolves to a
+truthy value the assertion will pass, otherwise it will fail.
+
+```yaml YAML
+test:
+  - request:
+      method: GET
+      url: https://example.com
+    assert:
+      - type: JS
+        value: resp.status < 300
+```
+
+### Environment Variables
+
+You can specify environment variables in your test file to reuse values across
+your test. In this example we make an environment variable called `CREDENTIALS`.
+It can then be used anywhere in the test by using the string `{{CREDENTIALS}}`.
+
+```YAML
+env:
+  - name: CREDENTIALS
+    value: ...
+
+test:
+  - request:
+      method: GET
+      url: https://example.com
+      headers:
+        - name: Authorization
+          value: '{{CREDENTIALS}}'
+    assert:
+      - type: JS
+        value: resp.status < 300
+```
+
+### Extractors
+
+Instead of specifying an environment variable at the top level, you might want
+to dynamically create environment variables in each step of the test. You can do
+this with extractors.
+
+```yaml YAML
+env:
+  - name: CREDENTIALS
+    value: ...
+
+test:
+  - request:
+      method: GET
+      url: https://example.com
+      headers:
+        - name: Authorization
+          value: "{{CREDENTIALS}}"
+    extract:
+      - name: example_data
+        value: resp.data
+    assert:
+      - type: JS
+        value: resp.status < 300
+  - request:
+      method: POST
+      url: https://example.com
+      data: "{{example_data}}"
+      headers:
+        - name: Authorization
+          value: "{{CREDENTIALS}}"
+    assert:
+      - type: JS
+        value: resp.status < 300
+```

@@ -1,0 +1,57 @@
+---
+title: "Deploy to GCP"
+---
+
+### Create a New Instance
+
+1. Create a new instance
+2. Select an OS
+   - Everything has been tested on `Debian`
+3. Set Instance Type
+   - Select at least a `e2.medium`
+4. Configure Storage
+   - Add at least 128 GB for the Boot Disk
+
+### Install Metlo
+
+1. Connect to your instance
+
+```bash Bash
+PROJECT_ID=<YOUR_PROJECT_ID>
+INSTANCE_NAME=<YOUR_INSTANCE_NAME>
+gcloud --project=$PROJECT_ID beta compute ssh $INSTANCE_NAME
+```
+
+1. Install Metlo (In the instance)
+
+```bash Bash
+sudo wget https://raw.githubusercontent.com/metlo-labs/metlo/master/manage-deployment.py -O manage-deployment.py
+sudo chmod +x manage-deployment.py
+sudo -E python manage-deployment.py init -q
+sudo python manage-deployment.py start
+```
+
+1. Connect to your instance
+
+```bash Bash
+PROJECT_ID=<YOUR_PROJECT_ID>
+INSTANCE_NAME=<YOUR_INSTANCE_NAME>
+gcloud --project=$PROJECT_ID beta compute ssh $INSTANCE_NAME
+```
+
+1. Install Metlo
+
+```bash Bash
+mkdir metlo && cd metlo
+wget https://raw.githubusercontent.com/metlo-labs/metlo/master/{docker-compose.yaml,init.sql,metlo-config.yaml}
+ENCRYPTION_KEY="<A_RANDOM_STRING>"
+EXPRESS_SECRET="<A_RANDOM_STRING>"
+BACKEND_URL="https://<YOUR_INSTANCE_IP>:8081"
+docker-compose up -d
+```
+
+### Connect to Metlo
+
+```bash Bash
+gcloud --project=$PROJECT_ID beta compute ssh $INSTANCE_NAME -- -L 8000:localhost:8000 -N -f
+```

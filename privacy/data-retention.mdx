@@ -1,0 +1,60 @@
+---
+title: "Trace Data Retention"
+---
+
+The only data that Metlo collects is api trace data to discover endpoints,
+sensitive data and build model of API usage. **Trace data is cleared from the
+Metlo's internal database every hour.** If you self host Metlo, **all of your
+data stays in your servers**.
+
+### Disabling Select Fields
+
+There may be some data you never want stored in Metlo's database (like passwords
+and API Keys). You can do this by specifying the fields you wouldn't like stored
+in the Metlo config on the settings page in your UI.
+
+For example, if you wanted to disable collection for the password in a `POST`
+request to `/login` you would make the following rule under the `blockFields`
+key:
+
+```yaml YAML
+blockFields:
+  test-ecommerce.metlo.com:
+    /login:
+      POST:
+        disable_paths:
+          - req.body.password
+```
+
+The key at the top level is the host you want to select, the second is the
+endpoint and the third is the method. `disable_paths` is a list of the data that
+you don't want stored. In this case we don't want to store the password in the
+request body. The possible sections are: `req.headers`, `req.query`, `req.body`,
+`res.headers`, `res.body`.
+
+If we wanted to disable this for all methods and not just `POST` we can specify
+the `ALL` key instead of the method.
+
+```yaml YAML
+blockFields:
+  test-ecommerce.metlo.com:
+    /login:
+      ALL:
+        disable_paths:
+          - req.body.password
+```
+
+You can also use `ALL` for the endpoint if you want to disable certain fields
+for all endpoints as well:
+
+```yaml YAML
+blockFields:
+  test-ecommerce.metlo.com:
+    ALL:
+      disable_paths:
+        - req.headers.X-API-KEY
+    /login:
+      POST:
+        disable_paths:
+          - req.body.password
+```

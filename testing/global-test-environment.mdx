@@ -1,0 +1,37 @@
+---
+title: "Global Test Environment"
+---
+
+You might want to make environment variables that are shared across all of your
+tests, you can specify these env vars in the Metlo Config tab on the settings
+page:
+
+```yaml YAML
+globalTestEnv:
+  - name: CREDENTIALS
+    value: ...
+  - name: foo
+    value: bar
+```
+
+These values can then be accessed in a test like normal environment variables
+but with `global` prefix before the name:
+
+```yaml YAML
+id: 065be84b-818f-4dd0-bb0e-6dc788697060
+
+meta:
+  name: /user Test
+
+test:
+  - request:
+      method: GET
+      url: "https://test-user-service.metlo.com/user/{{global.foo}}"
+      headers:
+        - name: Content-Type
+          value: application/json
+        - name: x-api-key
+          value: "{{global.CREDENTIALS}}"
+    assert:
+      - resp.status < 300
+```

@@ -1,0 +1,14 @@
+---
+title: "Deploy to Docker"
+---
+
+Run the following in your cloud environment:
+
+```bash Bash
+sudo wget https://raw.githubusercontent.com/metlo-labs/metlo/master/manage-deployment.py -O manage-deployment.py
+sudo chmod +x manage-deployment.py
+sudo -E python manage-deployment.py init -q
+sudo python manage-deployment.py start
+```
+
+Now visit [http://localhost:8000](http://localhost:8000)

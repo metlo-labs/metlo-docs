@@ -1,0 +1,33 @@
+---
+title: "Debugging Metlo Self Hosted"
+---
+
+### Viewing Logs
+
+To view logs for the self hosted version of Metlo go into the directory with
+Metlo's config files and view the docker logs:
+
+```bash Bash
+$ cd /opt/metlo
+$ sudo docker-compose logs
+```
+
+### Detailed Logs
+
+To view more detailed logs add `LOG_LEVEL=TRACE` to your `.env` file and restart
+Metlo by running:
+
+```bash Bash
+$ sudo metlo-deploy stop
+$ sudo metlo-deploy start
+```
+
+### Not able to log in?
+
+Since Metlo uses `secure` auth cookies by default you will only be able to log
+in on `localhost` or `https` URLs. If you absolutely need to be able to log in
+on `http` URLs you can add the following to `/opt/metlo/.env`:
+
+```bash Bash
+SECURE_AUTH_COOKIE=false
+```

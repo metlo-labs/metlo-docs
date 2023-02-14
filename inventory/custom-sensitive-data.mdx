@@ -1,0 +1,49 @@
+---
+title: "Custom Sensitive Data"
+---
+
+**You can customize the sensitive data classes that Metlo detects by editing the
+Metlo Config on the settings tab in your UI.**
+
+Metlo provides predefined sensitive data classes for
+
+- Email
+- Credit Card Number
+- Social Security Number
+- Phone Number
+- IP Address
+- Geographic Coordinates
+- Address
+
+To disable any of these fields from being used by Metlo you can provide a list
+of classes under the `disabledDataClass` field. For example:
+
+```yaml YAML
+disabledDataClass:
+  - IP_ADDRESS
+  - PHONE_NUMBER
+```
+
+The allowed values are the following:  
+`EMAIL`, `CREDIT_CARD`, `SSN`, `PHONE_NUMBER`, `IP_ADDRESS`, `COORDINATE`,
+`VIN`, `ADDRESS`, `DOB`, `DL_NUMBER`.
+
+You can also define your own Sensitive Data Classes for Metlo to use under the
+`sensitiveData` field. For example, if we wanted to make a data class which
+identifies fields which have the text `key-` or `key.` included in them, we
+would make the following rule:
+
+```yaml YAML
+sensitiveData:
+  <custom-data-name>:
+    severity: MEDIUM
+    patterns:
+      - "key-"
+      - "key.*"
+```
+
+The format should be an object of key, value pairs with the keys being the name
+of the data class. The values should have a severity field to denote the risk
+score of the class and a patterns field which should have a list of regex
+patterns to use to identify that data class. The possible values for severity
+are `HIGH`, `MEDIUM`, `LOW`, and `NONE`.

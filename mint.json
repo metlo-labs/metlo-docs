@@ -1,0 +1,150 @@
+{
+  "name": "Metlo",
+  "logo": {
+    "light": "/logo/light.svg",
+    "dark": "/logo/dark.svg"
+  },
+  "favicon": "/favicon.png",
+  "colors": {
+    "primary": "#4152F0",
+    "light": "#9BA5FF",
+    "dark": "#272F85",
+    "anchors": { "from": "#6371F0", "to": "#272F85" }
+  },
+  "topbarCtaButton": {
+    "name": "Get Started",
+    "url": "https://app.metlo.com/signup"
+  },
+  "topbarLinks": [
+    {
+      "name": "Sign In",
+      "url": "https://app.metlo.com/login"
+    }
+  ],
+  "anchors": [
+    {
+      "name": "Blog",
+      "icon": "newspaper",
+      "url": "https://metlo.ghost.io"
+    },
+    {
+      "name": "GitHub",
+      "icon": "github",
+      "url": "https://metlo.ghost.io"
+    },
+    {
+      "name": "Contact Us",
+      "icon": "envelope",
+      "url": "mailto:akshay@metlo.com"
+    }
+  ],
+  "navigation": [
+    {
+      "group": "Introduction",
+      "pages": [
+        "welcome",
+        "getting-started",
+        "metlo-self-hosted",
+        "installing-metlos-cli",
+        {
+          "group": "Metlo Juice Shop",
+          "pages": [
+            "juice-shop/overview",
+            "juice-shop/endpoint-discovery",
+            "juice-shop/sql-injection",
+            "juice-shop/bola",
+            "juice-shop/broken-authentication",
+            "juice-shop/vulnerabilities",
+            "juice-shop/protection"
+          ]
+        }
+      ]
+    },
+    {
+      "group": "Connections",
+      "pages": [
+        "connections/nodejs",
+        "connections/python",
+        "connections/java",
+        "connections/go",
+        "connections/aws",
+        "connections/gcp",
+        "connections/docker-compose",
+        "connections/kubernetes",
+        "connections/aws-fargate"
+      ]
+    },
+    {
+      "group": "Inventory",
+      "pages": [
+        "inventory/endpoints",
+        "inventory/sensitive-data",
+        "inventory/vulnerabilities",
+        "inventory/configuration",
+        "inventory/custom-sensitive-data",
+        "inventory/uploading-open-api-specs"
+      ]
+    },
+    {
+      "group": "Testing",
+      "pages": [
+        "testing/writing-a-test",
+        "testing/advanced-tests",
+        "testing/test-templates",
+        "testing/test-rules",
+        "testing/global-test-environment",
+        {
+          "group": "Custom Templates",
+          "pages": [
+            "testing/templates/custom-templates",
+            "testing/templates/typescript-templates",
+            "testing/templates/example-templates"
+          ]
+        }
+      ]
+    },
+    {
+      "group": "Alerts",
+      "pages": ["alerts/alerts", "alerts/webhooks"]
+    },
+    {
+      "group": "Protection",
+      "pages": ["protection", "attack-context"]
+    },
+    {
+      "group": "Settings",
+      "pages": ["settings/metlo-config", "settings/email"]
+    },
+    {
+      "group": "Debugging",
+      "pages": ["debugging-traffic-mirroring", "debugging-metlo-self-hosted"]
+    },
+    {
+      "group": "Deploy Open Source",
+      "pages": [
+        "deploy-open-source/aws",
+        "deploy-open-source/gcp",
+        "deploy-open-source/azure",
+        "deploy-open-source/docker"
+      ]
+    },
+    {
+      "group": "Privacy",
+      "pages": ["privacy/data-retention", "privacy/data-egress"]
+    },
+    {
+      "group": "Contribute",
+      "pages": [
+        "contribute/overview",
+        "contribute/development-guide",
+        "contribute/making-a-new-ingestor"
+      ]
+    }
+  ],
+  "footerSocials": {
+    "twitter": "https://twitter.com/MetloHQ",
+    "linkedin": "https://www.linkedin.com/company/metlo/",
+    "facebook": "https://www.facebook.com/MetloHQ",
+    "github": "https://github.com/metlo-labs/metlo"
+  }
+}

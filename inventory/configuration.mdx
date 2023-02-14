@@ -1,0 +1,47 @@
+---
+title: "Authentication"
+---
+
+**To make your endpoint inventory and test generation better you can define what
+type of authentication your hosts use by editing the Metlo Config on the
+settings tab in your UI.**
+
+You can specify the type of authentication used on each of your hosts to improve
+endpoint discovery and test generation. The possible authentication types are:
+`basic`, `header`, `jwt`, `session_cookie`.
+
+**Basic Auth**
+
+```yaml YAML
+authentication:
+  - host: www.example.com
+    authType: basic
+```
+
+**JWT**
+
+```yaml YAML
+authentication:
+  - host: www.example.com
+    authType: jwt
+    headerKey: Authorization
+    jwtUserPath: user.username
+```
+
+**Session Cookie**
+
+```yaml YAML
+authentication:
+  - host: www.example.com
+    authType: session_cookie
+    cookieName: _session_key
+```
+
+**Header**
+
+```yaml YAML
+authentication:
+  - host: www.example.com
+    authType: header
+    headerKey: X-API-KEY
+```

@@ -1,0 +1,32 @@
+---
+title: "AWS Fargate"
+---
+
+You can capture traffic for your AWS Fargate service using the Metlo Agent as a
+sidecar. You can do this by updating your task definition by adding the
+following to your `containerDefinitions`:
+
+```json JSON
+{
+    ...
+    "containerDefinitions": [
+        ...
+        {
+            "name": "metlo",
+            "image": "metlo/agent",
+            "entryPoint": [ "sh", "-c" ],
+            "command": [ "/bin/sh -c \"/app/metlo-pcap -i eth1\"" ],
+            "environment": [
+                {
+                    "name": "METLO_HOST",
+                    "value": "http://<YOUR_METLO_HOST>:8081"
+                },
+                {
+                    "name": "METLO_KEY",
+                    "value": "<YOUR_METLO_API_KEY>"
+                }
+            ]
+        }
+    ]
+}
+```

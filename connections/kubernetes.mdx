@@ -1,0 +1,23 @@
+---
+title: "Kubernetes"
+---
+
+To listen to traffic in Kubernetes, you can either set up Metlo as either a
+daemonset or a sidecar.
+
+Be sure to replace `<METLO_HOST_URL>` and `<YOUR_METLO_API_KEY>` in the
+templates.
+
+By default Metlo automatically detects the interface to listen to but you can
+specify the `INTERFACE` environment variable if you want to change it.
+
+### Daemonset
+
+Here is an example
+[metlo-daemonset.yaml](https://github.com/metlo-labs/metlo/blob/develop/ingestors/kubernetes/metlo-daemonset.yaml)
+file that contains just the daemonset for deploying metlo.
+
+### Sidecar
+
+[metlo-sidecar.yaml](https://github.com/metlo-labs/metlo/blob/develop/ingestors/kubernetes/metlo-sidecar.yaml)
+contains an example for how to setup Metlo as a sidecar container.

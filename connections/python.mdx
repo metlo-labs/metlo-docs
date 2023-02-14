@@ -1,0 +1,95 @@
+---
+title: "Python"
+---
+
+### Installation
+
+Currently Metlo's Python Agent supports 2 servers:
+
+- Django
+- Flask
+
+It can be installed from `pypi` by running :
+
+```bash Shell
+pip install metlo
+```
+
+### Configuration
+
+#### Django
+
+Once installed, Metlo's middleware can be added by modifying middlewares list
+(in the projects `settings.py`) like so:
+
+```py Python
+MIDDLEWARE = [
+    ...,
+    "metlo.django.MetloDjango",
+]
+```
+
+and configuring a `METLO_CONFIG` attribute in the projects `settings.py` like
+this :
+
+```py Python
+METLO_CONFIG = {
+    "API_KEY": "<YOUR_METLO_API_KEY>",
+    "METLO_HOST": "http://<YOUR_METLO_HOST>:8081"
+}
+```
+
+`METLO_CONFIG` can take an optional key-value pair (as "workers":number)
+representing the max number of workers for communicating with Metlo.
+
+```py Python
+METLO_CONFIG = {
+    "API_KEY": "<YOUR_METLO_API_KEY>",
+    "METLO_HOST": "http://<YOUR_METLO_HOST>:8081"
+    "workers": <Integer, default 4>
+}
+```
+
+#### Disabling during testing
+
+METLO_CONFIG takes an optional key-value pair for disabling metlo during testing
+or development. It can be added as ("DISABLED": boolean). It defaults to `False`
+so that metlo captures your traces by default.
+
+```py Python
+METLO_CONFIG = {
+    "API_KEY": "<YOUR_METLO_API_KEY>",
+    "METLO_HOST": "http://<YOUR_METLO_HOST>:8081"
+    "DISABLED": <Boolean, default False>
+}
+```
+
+#### Flask
+
+Once installed, Metlo middleware can be added simply like :
+
+```py Python
+from flask import Flask
+
+from metlo.flask import MetloFlask
+
+app = Flask(__name__)
+MetloFlask(app, "http://<YOUR_METLO_HOST>:8081", "<YOUR_METLO_API_KEY>")
+```
+
+The Flask Middleware takes the flask app, Metlo collector url, and the Metlo API
+Key as parameters. As an optional parameter, a named value can be passed for max
+number of workers for communicating with Metlo.
+
+```py Python
+MetloFlask(app, "http://<YOUR_METLO_HOST>:8081", "<YOUR_METLO_API_KEY>", workers=<Integer, default 4>)
+```
+
+#### Disabling during testing
+
+Metlo can take an optional named parameter (as "disabled":boolean) for disabling
+metlo during testing.
+
+```py Python
+MetloFlask(app, "http://<YOUR_METLO_HOST>:8081", "<YOUR_METLO_API_KEY>", disabled=<Boolean, default False>)
+```

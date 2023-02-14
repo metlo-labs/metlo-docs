@@ -1,0 +1,58 @@
+---
+title: "Go"
+---
+
+### Installation
+
+Metlo for Golang has two components, the Metlo agent and instrumentation for
+your specific frameworks(s). To install the Metlo agent, run:
+
+```bash Bash
+go get github.com/metlo-labs/metlo/ingestors/golang/metlo
+```
+
+After that you have to install the instrumentation for your framework. We
+currently support the following frameworks:
+
+**[Gin](https://github.com/gin-gonic/gin)**
+
+```bash Bash
+go get github.com/metlo-labs/metlo/ingestors/golang/gin
+```
+
+**[Gorilla/Mux](https://github.com/gorilla/mux)**
+
+```bash Bash
+go get github.com/metlo-labs/metlo/ingestors/golang/gorilla
+```
+
+### Setup
+
+```go Go
+import (
+    "net/http"
+    ...
+
+    "github.com/metlo-labs/metlo/ingestors/golang/metlo"
+    <EXPORT_NAME> "github.com/metlo-labs/metlo/ingestors/golang/<FRAMEWORK_NAME>"
+)
+
+func main() {
+    metlo := metlo.InitMetlo("http://<YOUR_METLO_HOST>:8081", "<YOUR_METLO_API_KEY>")
+    instrumentation := <EXPORT_NAME>.Init(metlo)
+
+    r.Use(instrumentation.Middleware)
+    ...
+}
+```
+
+### Customization
+
+Metlo Custom initialization allows for modifying two extra parameters.
+
+```go Go
+InitMetloCustom(metloHost string, metloKey string, rps int, disable bool)
+```
+
+- `rps` (default: 10 rps): Max requests per second to Metlo.
+- `disable` (default: false): To disable trace capture in certain scenarios.

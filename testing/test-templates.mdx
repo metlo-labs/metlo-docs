@@ -1,0 +1,29 @@
+---
+title: "Test Templates"
+---
+
+For common tests you probably don't want to make a YAML file manually for every
+single endpoint. Metlo supports using templates to autogenerate tests.
+
+### Builtin Templates
+
+Metlo currently comes with 3 builtin test templates:
+
+- BOLA
+- BROKEN_AUTHENTICATION
+- HSTS
+
+You can use these types directly when running generate:
+
+```bash Bash
+$ metlo test generate -t BOLA -h <ENDPOINT_HOST> -e <ENDPOINT_PATH>
+
+# By Endpoint UUID
+$ metlo test generate -t BOLA -e 4c658611-3425-4464-9363-665842312329
+```
+
+### Using a Template in the UI
+
+To use a template in the UI click on the dropdown on the new test button.
+
+![3808](/images/cb0093d-Screenshot_2023-01-05_at_7.49.18_PM.png "Screenshot 2023-01-05 at 7.49.18 PM.png")

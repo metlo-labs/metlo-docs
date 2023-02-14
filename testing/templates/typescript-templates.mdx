@@ -1,0 +1,170 @@
+---
+title: "Typescript Templates"
+---
+
+Although you can write test templates in Javascript, we highly recommend writing
+your templates in Typescript to make everything more seamless.
+
+**A Test Template has 3 Components:**
+
+- **name** \- A name for your template
+- **version** \- The version for your template
+- **builder** \- A function that takes an
+  [endpoint](https://github.com/metlo-labs/metlo/blob/develop/testing/src/generate/types.ts#L22)
+  and returns a
+  [TestBuilder](https://github.com/metlo-labs/metlo/blob/develop/testing/src/generate/builder.ts#L89)
+
+It's structured like this in typescript:
+
+```ts TypeScript
+import {
+  AssertionType,
+  GenTestEndpoint,
+  TestBuilder,
+  TestStepBuilder,
+} from "@metlo/testing";
+
+export default {
+  name: "<YOUR_TEMPLATE_NAME>",
+  version: <YOUR_TEMPLATE_VERSION>,
+  builder: (endpoint: GenTestEndpoint) => {
+    return new TestBuilder()
+  },
+}
+```
+
+### Builder
+
+A builder is a function that takes an endpoint of type
+[GenTestEndpoint](https://github.com/metlo-labs/metlo/blob/develop/testing/src/generate/types.ts#L22).
+
+```ts TypeScript
+export interface GenTestEndpoint {
+  host: string;
+  path: string;
+  method: Method;
+  dataFields: GenTestEndpointDataField[];
+  authConfig?: GenTestEndpointAuthConfig;
+}
+```
+
+You can use this endpoint to generate a test with the
+[TestBuilder](https://github.com/metlo-labs/metlo/blob/develop/testing/src/generate/builder.ts#L89)
+class inside the function.
+
+### TestBuilder
+
+Think of the test builder class as building up a YAML test file piece by piece
+by chaining the following functions:
+
+#### **`setMeta`** \- Adding Metadata
+
+Use this function to add any metadata related to your test, generally you would
+want to add a name and severity.
+
+````ts TypeScript
+return new TestBuilder().setMeta({
+  name: `${endpoint.path} Custom Test`,
+  severity: "MEDIUM",
+  tags: ["SOME", "CUSTOM", "TEST", "TAGS"],
+});
+ ``
+
+#### **`addToEnv`** \- Adding Environment Variables
+
+Add any environment variables you want to use later in your test.
+
+
+
+```ts TypeScript
+return new TestBuilder()
+  .setMeta(...)
+  .addToEnv({ name: "some_env_var", value: "foo" });
+````
+
+#### **`addTestStep`** \- Adding a Test Step
+
+Use this function to add each request, along with its extractors and and
+assertions.
+
+````ts TypeScript
+return new TestBuilder()
+  .setMeta(...)
+  .addToEnv(...)
+  .addTestStep(
+    new TestStepBuilder({
+      method: endpoint.method,
+      url: `https://${endpoint.host}${endpoint.path}`,
+    }).assert({
+      type: AssertionType.EQ,
+      key: "resp.status",
+      value: 200,
+    })
+  );
+ ``
+
+### TestStepBuilder
+
+The `TestStepBuilder` builds a request along with its assertions and extractors. You instantiate a test step builder with the request that you want to create:
+
+
+
+```ts TypeScript
+new TestStepBuilder({
+  method: ...,
+  url: ...,
+  data: ...,
+  query: [ { value: ..., name: ... } ],
+  headers: [ { value: ..., name: ... } ],
+  form: [ { value: ..., name: ... } ],
+})
+````
+
+You can also autogenerate a request using the endpoint using:
+
+```ts TypeScript
+TestStepBuilder.sampleRequest(endpoint);
+```
+
+There are many cases where you would want to generate a sample request without
+any authentication:
+
+```ts TypeScript
+TestStepBuilder.sampleRequestWithoutAuth(endpoint);
+```
+
+After that you can chain the following functions to create your step:
+
+#### **`assert`** \- Add an Assertion
+
+Use this function to add an assertion to your test step.
+
+```ts TypeScript
+import { AssertionType } from "@metlo/testing";
+
+TestStepBuilder.sampleRequestWithoutAuth(endpoint).assert({
+  type: AssertionType.EQ,
+  key: "resp.status",
+  value: [401, 403],
+});
+```
+
+#### **`extract`** \- Add an Extractor
+
+Use this function to add an extractor to your test step.
+
+```ts TypeScript
+import { ExtractorType } from "@metlo/testing";
+
+TestStepBuilder.sampleRequest(endpoint)
+  .assert(...)
+  .extract({
+    name: "step_1_status",
+    value: "resp.status",
+  })
+  .extract({
+    name: "html_element",
+    type: ExtractorType.HTML,
+    value: "#content-container > div.markdown-body.ng-non-bindable",
+  })
+```

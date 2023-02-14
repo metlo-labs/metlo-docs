@@ -1,0 +1,29 @@
+---
+title: "Docker Compose"
+---
+
+If you're app is deployed using docker compose you can add Metlo as a service to
+capture API traffic data as shown below:
+
+```yaml YAML
+version: "3.9"
+
+services:
+  <your-service>: ...
+  metlo:
+    image: metlo/agent
+    network_mode: "service:<your-service>"
+    depends_on:
+      - <your-service>
+    cap_add:
+      - NET_ADMIN
+    environment:
+      - METLO_HOST=http://<YOUR_METLO_HOST>:8081
+      - METLO_KEY=<YOUR_METLO_API_KEY>
+```
+
+Be sure to set the `network_mode` to `"service:<your-service>"` so Metlo can
+reuse your service's network stack and listen to API traffic.
+
+By default Metlo automatically detects the interface to listen to but you can
+specify the `INTERFACE` environment variable if you want to change it.

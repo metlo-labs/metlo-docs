@@ -1,0 +1,61 @@
+---
+title: "AWS Traffic Mirroring"
+---
+
+Metlo supports capturing API traffic using
+[AWS Traffic Mirroring](https://docs.aws.amazon.com/vpc/latest/mirroring/what-is-traffic-mirroring.html).
+This VPC feature mirrors traffic from a specified network interface to Metlo.
+
+_There are some limitations on the type of instances that support mirroring. You
+can find more info
+[here](https://aws.amazon.com/about-aws/whats-new/2021/02/amazon-vpc-traffic-mirroring-supported-select-non-nitro-instance-types/)_
+
+#### 1. Deploy a Metlo Mirroring Instance
+
+[ ![](/images/aws-deploy-us-west-1-light.svg) ](https://backend.metlo.com/traffic-mirror/aws?region=us-west-1)
+[ ![](/images/aws-deploy-us-west-2-light.svg) ](https://backend.metlo.com/traffic-mirror/aws?region=us-west-2)
+[ ![](/images/aws-deploy-us-east-1-light.svg) ](https://backend.metlo.com/traffic-mirror/aws?region=us-east-1)
+[ ![](/images/aws-deploy-us-east-2-light.svg) ](https://backend.metlo.com/traffic-mirror/aws?region=us-east-2)
+
+#### 2. Get AWS API Keys
+
+To set up mirroring we need an API Key with the following permissions:
+
+- AmazonEC2FullAccess
+- AmazonVPCFullAccess
+
+#### 3. Instal Metlo's CLI Tool
+
+You can install `metlo` from npm by running the following:
+
+Bash
+
+```bash Bash
+$ npm i -g @metlo/cli
+```
+
+<Note>Be sure you are using Node 16 or higher.</Note>
+
+#### 4. Set up Traffic Mirroring
+
+Metlo supports mirroring either **Network Interfaces** or **EC2 Instances**. To
+set up traffic mirroring run the following:
+
+```bash Bash
+$ metlo traffic-mirror aws new
+✔ Select your AWS region · us-west-2
+✔ What type of source do you want to mirror? · instance
+✔ Enter the id of your source · i-xxxxxxxxxxxxxxxxx
+Finding Source...
+Success!
+✔ Enter the id of your Metlo Mirroring Instance:  · i-xxxxxxxxxxxxxxxxx
+Creating Mirror Session...
+Success!
+```
+
+**Finding the network interface for a load balancer**
+
+You can find the network interface for your load balancer under
+`Network & Security > Network Interfaces` on the EC2 page in your console. Your
+load balancer's name should be in the description column for your network
+interface.

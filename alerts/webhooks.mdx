@@ -1,0 +1,197 @@
+---
+title: "Webhooks"
+---
+
+Using Metlo's Webhook Integration, you can add webhooks you would like us to
+send data to whenever an alert is triggered. To view your integrations and add
+webhooks, go to the `Settings` page and click on the `Integrations` tab. On the
+`Integrations` tab, you can add, delete, and view webhooks you have previously
+created.
+
+Metlo will send a `POST` request with the alert payload to the urls you define
+for your webhooks. By default, the requests will be triggered for each type of
+alert that is created. The alert payload will follow this format (`Payload` is
+the data that is sent, the rest of the definitions showcase what the data we
+send looks like):
+
+```json JSON
+Payload {
+  "alert": Alert,
+  "meta": {
+    "host": string,
+    "totalEndpoints": number,
+    "totalSensitiveEndpoints": number,
+  }
+}
+
+Alert {
+  "uuid": string,
+  "type": AlertType,
+  "status": "Open" | "Ignored" | "Closed",
+  "context": object,
+  "createdAt": Date,
+  "riskScore": RiskScore,
+  "updatedAt": Date,
+  "description": string,
+  "apiEndpoint": ApiEndpoint,
+  "apiEndpointUuid": string,
+  "organizationUuid": string,
+}
+
+ApiEndpoint {
+  "uuid": string,
+  "path": string,
+  "pathRegex": string,
+  "createdAt": Date,
+  "updatedAt": Date,
+  "firstDetected": Date,
+  "lastActive": Date,
+  "host": string,
+  "numberParams": number,
+  "method": RestMethod,
+  "riskScore": RiskScore,
+  "oldEndpointUuids": string[],
+  "dataFields": DataField[],
+  "isAuthenticatedDetected": boolean,
+  "isAuthenticatedUserSet": boolean,
+  "isGraphQl": boolean,
+}
+
+RiskScore {
+  "high",
+  "medium",
+  "low",
+  "none",
+}
+
+DataField {
+  "uuid": string,
+  "dataClasses": string[],
+  "falsePositives": string[],
+  "scannerIdentified": string[],
+  "dataType": DataType,
+  "dataTag": DataTag,
+  "dataSection": DataSection,
+  "createdAt": Date,
+  "updatedAt": Date,
+  "dataPath": string,
+  "apiEndpointUuid": string,
+}
+
+DataType {
+  "integer",
+  "number",
+  "string",
+  "boolean",
+  "object",
+  "array",
+  "unknown",
+}
+
+DataTag {
+  "PII"
+}
+
+DataSection {
+  "reqPath",
+  "reqQuery",
+  "reqHeaders",
+  "reqBody",
+  "resHeaders",
+  "resBody",
+}
+
+RestMethod {
+  "GET",
+  "HEAD",
+  "POST",
+  "PUT",
+  "PATCH",
+  "DELETE",
+  "CONNECT",
+  "OPTIONS",
+  "TRACE",
+}
+
+AlertType {
+  "New Endpoint Detected",
+  "PII Data Detected",
+  "Open API Spec Diff",
+  "Sensitive Data in Query Params",
+  "Sensitive Data in Path Params",
+  "Basic Authentication Detected",
+  "Endpoint not secured by SSL",
+  "Unauthenticated Endpoint returning Sensitive Data",
+}
+```
+
+#### Context
+
+The `context` object contains any extra data related to that specific alert.
+
+#### RiskScore
+
+The `RiskScore` defines the score given to that alert based on its risk and is
+equal to one of the following values: `high`, `medium`, `low`, `none`.
+
+#### AlertType
+
+The `AlertType` is a string which defines the specific type of the alert and can
+be one of a certain number of values as defined above.
+
+#### ApiEndpoint
+
+The `apiEndpoint` field contains the endpoint info for which the alert was
+triggered.
+
+#### DataField
+
+The `dataFields` field contains a list of the fields that belong to an endpoint.
+These fields can belong to any part of an endpoint such as its request body and
+headers or response body and headers.
+
+#### DataClass
+
+Each `DataField` has a list of sensitive data classes which are identified for
+it. The `dataClasses` field contains the current sensitive data classes which
+are tagged for that`DataField`. The `falsePositives` field contains any classes
+that were identified by a user as a false positive. The `scannerIdentified`
+field contains all the sensitive data classes that were identified by Metlo. The
+list of data classes could include any Metlo defined or User defined(via Metlo
+Config) Sensitive Data Classes.
+
+#### DataSection
+
+Each `DataField` belongs to a `DataSection` which can be in the request path
+parameters, request query parameters, request headers, request body, response
+headers, or response body.
+
+#### DataType
+
+Each `DataField` has a `dataType` field which defines the type of the values of
+that `DataField`.
+
+#### DataTag
+
+Each `DataField` either has a value for the `dataTag` field or has null if there
+is no tag for that field. For example, a `DataField` which contains sensitive
+information will have a `dataTag` with value of `PII`.
+
+#### DataPath
+
+Each `DataField` has a value for the `dataPath` field which defines the path to
+the `DataField` in the payload. For example, if the response body of an endpoint
+is as defined below, then there would be two `DataField` items and each would
+have a distinct `dataPath` which would be `foo.bar` and `foo.baz`:
+
+```json JSON
+{
+  "foo": {
+    "bar": 123,
+    "baz": true
+  }
+}
+```
+
+If instead the response body was just a plain string, then the `dataPath` would
+just be an empty string `""`.
