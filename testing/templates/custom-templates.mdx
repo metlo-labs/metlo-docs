@@ -14,14 +14,16 @@ have both Node and NPM installed before following these steps! We highly
 recommend using [nvm](https://github.com/nvm-sh/nvm).
 
 ```bash Bash
-$ mkdir metlo-test-templates $ cd metlo-test-templates $ npm init
+mkdir metlo-test-templates
+cd metlo-test-templates
+npm init
 ```
 
 After setting up your project install `@metlo/testing` for the testing utility
 functions.
 
 ```bash Bash
-$ npm install @metlo/testing
+npm install @metlo/testing
 ```
 
 ### Creating a New Template
@@ -43,7 +45,7 @@ metlo-test-templates/
 First create a folder called templates in your project:
 
 ```
-$ mkdir templates
+mkdir templates
 ```
 
 After that create a folder inside it for your template, lets make a template
@@ -51,7 +53,10 @@ that verifies if an endpoint always responds with CSP Headers called
 `VERIFY_CSP_HEADERS`.
 
 ```
-$ cd templates $ mkdir VERIFY_CSP_HEADERS $ cd VERIFY_CSP_HEADERS $ touch v1.ts
+cd templates
+mkdir VERIFY_CSP_HEADERS
+cd VERIFY_CSP_HEADERS
+touch v1.ts
 ```
 
 Now you can open `v1.ts` in the editor of your choice and paste the following:
@@ -91,7 +96,7 @@ You can see a deeper overview of templates [here](/typescript-templates).
 You can generate a test with this new template using the Metlo CLI.
 
 ```bash Bash
-$ metlo test generate \
+metlo test generate \
  -t templates/VERIFY_CSP_HEADERS/v1.ts \
  -h <ENDPOINT_HOST> \
  -e <ENDPOINT_PATH> \
@@ -99,7 +104,7 @@ $ metlo test generate \
 
 # By Endpoint UUID
 
-$ metlo test generate \
+metlo test generate \
  -t templates/VERIFY_CSP_HEADERS/v1.ts \
  -e <ENDPOINT_UUID> \
  -p output.yaml
@@ -111,7 +116,7 @@ First fill in any values you need in `output.yaml`. After that, you can run the
 generated test by running the following:
 
 ```bash Bash
-$ metlo test run output.yaml
+metlo test run output.yaml
 ```
 
 ### Pushing Your Templates to Metlo
@@ -120,7 +125,7 @@ After you've verified that the template works, you can push your template to
 Metlo by running:
 
 ```bash Bash
-$ metlo template push templates
+metlo template push templates
 ```
 
 This template should now be available in the Metlo UI.

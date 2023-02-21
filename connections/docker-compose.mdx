@@ -9,7 +9,8 @@ capture API traffic data as shown below:
 version: "3.9"
 
 services:
-  <your-service>: ...
+  <your-service>:
+    ...
   metlo:
     image: metlo/agent
     network_mode: "service:<your-service>"

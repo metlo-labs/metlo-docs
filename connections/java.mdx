@@ -16,16 +16,23 @@ You can add Metlo via either Maven or Gradle:
 Gradle:
 
 ```Gradle Gradle
-dependencies { .... implementation com.metlo.spring:0.3 }
+dependencies {
+    ...
+    implementation com.metlo.spring:0.3
+}
 ```
 
 Maven:
 
 ```XML XML
-<dependencies> .... <dependency> <groupId>com.metlo</groupId>
-<artifactId>spring</artifactId> <version>0.3</version> <scope>compile</scope>
-</dependency>
-
+<dependencies>
+    ....
+    <dependency>
+        <groupId>com.metlo</groupId>
+        <artifactId>spring</artifactId>
+        <version>0.3</version>
+        <scope>compile</scope>
+    </dependency>
 </dependencies>
 ```
 
@@ -44,7 +51,7 @@ import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-// Metlo imprted here import com.metlo.spring.Metlo;
+// Metlo imported here import com.metlo.spring.Metlo;
 
 @Configuration public class FilterConfig {
 

@@ -15,26 +15,26 @@ title: "Development Guide"
 
 ```bash Bash
 # Clone Metlo
-$ git clone https://github.com/metlo-labs/metlo.git
-$ cd metlo
+git clone https://github.com/metlo-labs/metlo.git
+cd metlo
 
 # Install Yarn
-$ npm i -g yarn
+npm i -g yarn
 
 # Create a test database
-$ psql postgres://localhost:5432/postgres -c "CREATE DATABASE metlo_api_security;"
+psql postgres://localhost:5432/postgres -c "CREATE DATABASE metlo_api_security;"
 
 # Build the common modules
-$ cd common
-$ yarn install && yarn build
+cd common
+yarn install && yarn build
 
 # Install npm packages for the frontend and backend
-$ cd ../frontend
-$ yarn
-$ cd ../backend
-$ yarn
-$ yarn run migration:run
-$ yarn build
+cd ../frontend
+yarn
+cd ../backend
+yarn
+yarn run migration:run
+yarn build
 ```
 
 #### Set up environment
@@ -64,36 +64,36 @@ Finally, you can start each service in a different terminal window:
 **1. Start the frontend**
 
 ```bash Bash
-$ cd frontend
-$ yarn dev
+cd frontend
+yarn dev
 ```
 
 **2. Start the backend**
 
 ```bash Bash
-$ cd backend
-$ yarn dev
+cd backend
+yarn dev
 ```
 
 **3. Start the collector service**
 
 ```bash Bash
-$ cd backend
-$ yarn dev-collector
+cd backend
+yarn dev-collector
 ```
 
 **4. Start the job scheduler**
 
 ```bash Bash
-$ cd backend
-$ yarn start-jobs
+cd backend
+yarn start-jobs
 ```
 
 **5. Start the analyzer**
 
 ```bash Bash
-$ cd backend
-$ yarn start-analyzer
+cd backend
+yarn start-analyzer
 ```
 
 <Warning>
@@ -115,15 +115,15 @@ load test trace data by running the test ingestor:
 
 ```bash Bash
 # Get an API Key from the backend
-$ curl -X POST 'http://localhost:3000/api/v1/keys/create' -H 'Content-Type: application/json' -d '{"name":"test-api-key"}'
+curl -X POST 'http://localhost:3000/api/v1/keys/create' -H 'Content-Type: application/json' -d '{"name":"test-api-key"}'
 {"apiKey":"<YOUR_API_KEY>"}
 
 # Start the test ingestor
-$ cd ingestors/test_data
-$ virtualenv --python=python3 env
-$ source env/bin/activate
-$ pip install -r requirements.txt
-$ python main.py -b http://localhost:8081 -key <YOUR_API_KEY>
+cd ingestors/test_data
+virtualenv --python=python3 env
+source env/bin/activate
+pip install -r requirements.txt
+python main.py -b http://localhost:8081 -key <YOUR_API_KEY>
 ```
 
 #### Migrations
@@ -134,7 +134,7 @@ create a new migration, run this command in the root of the backend directory:
 bash Bash
 
 ```
-$ yarn run migration:create ./src/migrations/<MIGRATION_DESCRIPTION>
+yarn run migration:create ./src/migrations/<MIGRATION_DESCRIPTION>
 ```
 
 Running this command will add a new file to the `migrations` directory to which
@@ -144,5 +144,5 @@ constructor options in the `backend/src/data-source.ts` file. To run any new
 migrations, you can run this command:
 
 ```bash Bash
-$ yarn run migration:run
+yarn run migration:run
 ```

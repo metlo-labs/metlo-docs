@@ -8,10 +8,10 @@ You can update your traffic mirroring code by running the following in your
 Metlo traffic mirroring instance:
 
 ```bash Bash
-$ sudo systemctl stop metlo-traffic-mirror.service
-$ sudo bash -c "curl -L https://raw.githubusercontent.com/metlo-labs/metlo/master/deploy/govxlan/update.sh | /bin/bash"
-$ sudo systemctl daemon-reload
-$ sudo systemctl start metlo-traffic-mirror.service
+sudo systemctl stop metlo-traffic-mirror.service
+sudo bash -c "curl -L https://raw.githubusercontent.com/metlo-labs/metlo/master/deploy/govxlan/update.sh | /bin/bash"
+sudo systemctl daemon-reload
+sudo systemctl start metlo-traffic-mirror.service
 ```
 
 ### Detailed Logs
@@ -20,22 +20,22 @@ You can view the logs for the running traffic mirroring service by running the
 following in your Metlo traffic mirroring instance::
 
 ```bash Bash
-$ sudo systemctl stop metlo-traffic-mirror.service
-$ sudo bash -c "curl -L https://raw.githubusercontent.com/metlo-labs/metlo/master/deploy/govxlan/update.sh | /bin/bash"
-$ sudo systemctl daemon-reload
-$ sudo systemctl start metlo-traffic-mirror.service
+sudo systemctl stop metlo-traffic-mirror.service
+sudo bash -c "curl -L https://raw.githubusercontent.com/metlo-labs/metlo/master/deploy/govxlan/update.sh | /bin/bash"
+sudo systemctl daemon-reload
+sudo systemctl start metlo-traffic-mirror.service
 ```
 
 To view more detailed logs you can stop the traffic mirroring service and start
 it manually with a lower logging level:
 
 ```bash Bash
-$ sudo systemctl stop metlo-traffic-mirror.service
-$ metlo-pcap -l trace
+sudo systemctl stop metlo-traffic-mirror.service
+metlo-pcap -l trace
 ```
 
 Be sure to restart the traffic mirroring service after your done!
 
 ```bash Bash
-$ sudo systemctl start metlo-traffic-mirror.service
+sudo systemctl start metlo-traffic-mirror.service
 ```

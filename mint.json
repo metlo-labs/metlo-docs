@@ -25,12 +25,17 @@
     {
       "name": "Blog",
       "icon": "newspaper",
-      "url": "https://metlo.ghost.io"
+      "url": "https://blog.metlo.com"
     },
     {
       "name": "GitHub",
       "icon": "github",
-      "url": "https://metlo.ghost.io"
+      "url": "https://github.com/metlo-labs/metlo"
+    },
+    {
+      "name": "Discord",
+      "icon": "discord",
+      "url": "https://discord.com/invite/4xhumff9BX"
     },
     {
       "name": "Contact Us",
