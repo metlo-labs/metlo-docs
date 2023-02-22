@@ -1,0 +1,24 @@
+---
+title: "Generating Auth Tests"
+---
+
+After making a testing config you can generate auth tests for your endpoints in just a couple steps.
+
+### Specifying Entities
+
+The first step is to specify the entities for your endpoint's datafields:
+
+![entity_select](/images/entity_select.png)
+
+## Making your Test
+
+After you specify your entities you can generate a test using the `VALIDATE_AUTH_RULES` template.
+You can do this in the UI on the testing tab for your endpoint:
+
+![validate_auth_rules](/images/validate_auth_rules_template.png)
+
+Or you can generate a test using the Metlo CLI:
+
+```bash
+metlo test generate -t VALIDATE_AUTH_RULES -e <your-endpoint-uuid>
+```

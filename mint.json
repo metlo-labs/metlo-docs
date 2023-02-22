@@ -100,6 +100,13 @@
         "testing/test-rules",
         "testing/global-test-environment",
         {
+          "group": "Auth Tests",
+          "pages": [
+            "testing/auth-tests/testing-config",
+            "testing/auth-tests/generating-auth-tests"
+          ]
+        },
+        {
           "group": "Custom Templates",
           "pages": [
             "testing/templates/custom-templates",
