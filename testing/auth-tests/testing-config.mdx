@@ -1,0 +1,149 @@
+---
+title: "Making a Testing Config"
+---
+
+Metlo can automatically identify most `BOLA`, `IDOR` and `Broken Authentication` vulnerabilities.
+To do this we require a little bit of configuration on the different resources and actors in your api as well as the permission relationships between them.
+This configuration is written in the [settings](https://app.metlo.com/settings?tab=testing-config) page on the `Testing Config` tab.
+
+### Hosts
+
+The first step is to add some authentication configuration for each host that you want to make tests for.
+
+Each host should has the following fields:
+
+- **authType** - One of `basic`, `header`, `jwt`, `session_cookie`
+- **headerKey \[optional\]** \- The header your auth info is stored in
+- **cookieName \[optional\]** \- The name of the cookie your auth info is stored in
+- **jwtUserPath \[optional\]** \- The path of the user in your JWT token
+
+```hcl
+host "www.example-using-header.com" {
+    authType = "header",
+    headerKey = "Authorization",
+    testingHost = "staging.example.com"
+}
+
+host "www.example-using-cookie.com" {
+    authType = "session_cookie",
+    cookieName = "_session_key"
+}
+```
+
+### Actors
+
+After you define your hosts you can specify the different Actors in your API. An Actor is any agent that performs an action in your API.
+Most commonly you can either have `User` actors or `APIKey` actors.
+
+Each actor should have a JSON list of `items` in it. Each item should be a dictionary with all the fields relevant to your Actor.
+Be sure to add an `auth` key in each item so we can authenticate your actor when making requests.
+
+```hcl
+actor User {
+    items = [
+        {
+            "uuid": "fb0bd533-3d87-4e67-925d-5d4fed5ffeda",
+            "name": "Admin User",
+            "role": "admin",
+            "auth": "<An Admin Auth Key>"
+        },
+        {
+            "uuid": "cfe3b553-186d-4ab3-a501-babcd26b1c73",
+            "name": "Regular User",
+            "role": "regular",
+            "auth": "<A Regular User Auth Key>"
+        }
+    ]
+} 
+
+```
+
+### Resources
+
+Resources are the items that actors perform actions on. A resource has the following fields:
+
+- **permissions** - A list of strings that contains each permission for this resource, most commonly `read` or `write`
+- **items** - A list of different example resources
+
+```hcl
+resource Product {
+    permissions = ["read", "write"],
+
+    items = [
+        {
+            "uuid": "96665ba0-e248-4360-83b9-cf1d6ffb727f",
+            "name": "some test product"
+        },
+        {
+            "uuid": "cbd8f3ed-12f9-4715-af91-471e063cbb55",
+            "name": "another other test product"
+        }
+    ]
+} 
+```
+
+In addition to identifying the `permissions` and `items` for a resource you can also define the endpoints that use this resource.
+Here are a few examples for you can specify endpoints:
+
+```hcl
+resource Product {
+    permissions = ["read", "write"],
+
+    items = [ ... ],
+
+    endpoints = [
+        # All GET endpoints whose paths start with /product need read access to Product
+        {
+            "method": "GET",
+            "path": "^/product/.*",
+            "permissions": ["read"]
+        },
+        # All POST endpoints whose paths start with /product need write access to Product
+        {
+            "method": "POST",
+            "path": "/product/.*",
+            "permissions": ["write"]
+        },
+        # All PUT endpoints that contain the Product resource in the request path need write access to Product
+        {
+            "method": "PUT",
+            "contains_resource": { "path": "req.path" },
+            "permissions": ["write"]
+        },
+        # All DELETE endpoints whose host match ^.*\.product-service\.com need write access to product
+        {
+            "method": "DELETE",
+            "host": "^.*\.product-service\.com"
+            "permissions": ["write"]
+        }
+    ] 
+} 
+```
+
+### Permissions
+
+Finally, you can define the relations between your `Actors` and `Resources` using permissions.
+
+```hcl
+# All Admin users have read and write access to all Products
+has_permission(User(role="admin"), [ "read", "write" ], Product)
+
+# All Users have read access to all Products
+has_permission(User, [ "read" ], Product)
+
+# User with uuid fb0bd533... has write access to Product with uuid 96665ba0...
+has_permission(
+    User(uuid="fb0bd533-3d87-4e67-925d-5d4fed5ffeda"),
+    [ "write" ],
+    Product(uuid="96665ba0-e248-4360-83b9-cf1d6ffb727f")
+)
+
+# User with uuid cfe3b553... has write access to Product with uuid cbd8f3ed...
+has_permission(
+    User(uuid="cfe3b553-186d-4ab3-a501-babcd26b1c73"),
+    [ "write" ],
+    Product(uuid="cbd8f3ed-12f9-4715-af91-471e063cbb55")
+)
+```
+
+Metlo automatically generates auth test cases using these permissions!
