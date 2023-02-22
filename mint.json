@@ -76,7 +76,8 @@
         "connections/gcp",
         "connections/docker-compose",
         "connections/kubernetes",
-        "connections/aws-fargate"
+        "connections/aws-fargate",
+        "connections/burp-suite-plugin"
       ]
     },
     {
