@@ -1,0 +1,17 @@
+---
+title: "Running Metlo Locally"
+---
+
+### Set up your environment
+
+```bash Bash
+python3 -c 'import base64; import secrets; print("ENCRYPTION_KEY=" + base64.b64encode(secrets.token_bytes(32)).decode("UTF-8"))' > .env
+```
+
+### Run Metlo
+
+```bash Bash
+docker run -p 3000:3000 -p 8081:8081 --env-file .env -v metlo-data:/var/lib/metlo metlo/metlo
+```
+
+Now visit [http://localhost:3000](http://localhost:3000)

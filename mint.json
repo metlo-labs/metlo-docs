@@ -138,7 +138,8 @@
         "deploy-open-source/aws",
         "deploy-open-source/gcp",
         "deploy-open-source/azure",
-        "deploy-open-source/docker"
+        "deploy-open-source/docker",
+        "deploy-open-source/docker-local"
       ]
     },
     {
