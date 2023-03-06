@@ -9,9 +9,11 @@ Metlo traffic mirroring instance:
 
 ```bash Bash
 sudo systemctl stop metlo-traffic-mirror.service
+sudo systemctl stop metlo-traffic-mirror-analyzer.service
 sudo bash -c "curl -L https://raw.githubusercontent.com/metlo-labs/metlo/master/deploy/govxlan/update.sh | /bin/bash"
 sudo systemctl daemon-reload
 sudo systemctl start metlo-traffic-mirror.service
+sudo systemctl start metlo-traffic-mirror-analyzer.service
 ```
 
 ### Detailed Logs
@@ -21,9 +23,11 @@ following in your Metlo traffic mirroring instance::
 
 ```bash Bash
 sudo systemctl stop metlo-traffic-mirror.service
+sudo systemctl stop metlo-traffic-mirror-analyzer.service
 sudo bash -c "curl -L https://raw.githubusercontent.com/metlo-labs/metlo/master/deploy/govxlan/update.sh | /bin/bash"
 sudo systemctl daemon-reload
 sudo systemctl start metlo-traffic-mirror.service
+sudo systemctl start metlo-traffic-mirror-analyzer.service
 ```
 
 To view more detailed logs you can stop the traffic mirroring service and start
