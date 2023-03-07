@@ -15,7 +15,7 @@ following to your `containerDefinitions`:
             "name": "metlo",
             "image": "metlo/agent",
             "entryPoint": [ "sh", "-c" ],
-            "command": [ "/bin/sh -c \"/app/metlo-pcap -i eth1\"" ],
+            "command": [ "/bin/sh -c \"/app/entrypoint.sh\"" ],
             "environment": [
                 {
                     "name": "METLO_HOST",
