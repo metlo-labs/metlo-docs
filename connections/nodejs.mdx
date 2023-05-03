@@ -36,11 +36,12 @@ const metlo = require("metlo").initExpress;
 const app = express();
 ....
 app.use(
-  metlo
+  metlo(
     {
       key: <YOUR_METLO_API_KEY>,
       host: "http://<YOUR_METLO_HOST>:8081",
     }
+  )
 );
 ```
 
@@ -56,11 +57,12 @@ const metlo = require("metlo").initKoa;
 const app = new Koa();
 ....
 app.use(
-  metlo
+  metlo(
     {
       key: <YOUR_METLO_API_KEY>,
       host: "http://<YOUR_METLO_HOST>:8081",
     }
+  )
 );
 ```
 
@@ -76,11 +78,12 @@ const metlo = require("metlo").initFastify;
 const fastify = Fastify();
 ....
 fastify.register(
-  metlo
+  metlo(
     {
       key: <YOUR_METLO_API_KEY>,
       host: "http://<YOUR_METLO_HOST>:8081",
     }
+  )
 );
 ```
 
