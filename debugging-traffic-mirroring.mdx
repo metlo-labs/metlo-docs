@@ -9,7 +9,7 @@ Metlo traffic mirroring instance:
 
 ```bash Bash
 sudo systemctl stop metlo-traffic-mirror.service
-sudo bash -c "curl -L https://raw.githubusercontent.com/metlo-labs/metlo/master/deploy/govxlan/update.sh | /bin/bash"
+sudo bash -c "curl -L https://raw.githubusercontent.com/metlo-labs/metlo-deploy/main/aws/mirroring/update.sh | /bin/bash"
 sudo systemctl daemon-reload
 sudo systemctl start metlo-traffic-mirror.service
 ```
@@ -20,10 +20,7 @@ You can view the logs for the running traffic mirroring service by running the
 following in your Metlo traffic mirroring instance::
 
 ```bash Bash
-sudo systemctl stop metlo-traffic-mirror.service
-sudo bash -c "curl -L https://raw.githubusercontent.com/metlo-labs/metlo/master/deploy/govxlan/update.sh | /bin/bash"
-sudo systemctl daemon-reload
-sudo systemctl start metlo-traffic-mirror.service
+sudo journalctl -u metlo-traffic-mirror.service
 ```
 
 To view more detailed logs you can stop the traffic mirroring service and start
