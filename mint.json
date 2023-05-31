@@ -74,6 +74,7 @@
         "connections/go",
         "connections/aws",
         "connections/gcp",
+        "connections/azure-api-management",
         "connections/docker-compose",
         "connections/kubernetes",
         "connections/aws-fargate",
