@@ -72,6 +72,7 @@
         "connections/python",
         "connections/java",
         "connections/go",
+        "connections/nginx",
         "connections/aws",
         "connections/gcp",
         "connections/docker-compose",
