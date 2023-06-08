@@ -4,7 +4,7 @@ title: "Nginx"
 
 ### Installation
 
-Metlo for Nginx has two components, the Metlo nginx module and a shared library component. To install both of these, run:
+Run the following script to install Metlo's Nginx module:
 
 ```bash Bash
 curl https://raw.githubusercontent.com/metlo-labs/metlo-deploy/main/connectors/nginx/install_metlo.sh >> install_metlo.sh
@@ -12,7 +12,8 @@ chmod +x install_metlo.sh
 ./install_metlo.sh [ --ubuntu | --debian ]
 ```
 
-The rest of the installation will be handled by the script.
+You can also download and install the module for [ubuntu](https://metlo-releases.s3.us-west-2.amazonaws.com/metlo_nginx_module_amd64_ubuntu_latest.so)
+or [debian](https://metlo-releases.s3.us-west-2.amazonaws.com/metlo_nginx_module_amd64_debian_latest.so) manually.
 
 ### Setup
 
@@ -26,8 +27,7 @@ thread_pool                     metlo threads=2 max_queue=65536;
 ...
 ```
 
-In addition to this, a few environment variables have to be provided to nginx.
+After that, just add these environment variables to nginx.
 
-- METLO_URL: Your Metlo URL.
+- METLO_URL: `"https://app.metlo.com:8081"`
 - METLO_API_KEY: Your Metlo API key
-- LD_LIBRARY_PATH: /opt/metlo:$LD_LIBRARY_PATH
