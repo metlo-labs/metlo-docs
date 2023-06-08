@@ -1,0 +1,30 @@
+---
+title: "Linkerd"
+---
+
+If you have mTLS setup in your Kubernetes cluster using Linkerd you can still use Metlo as either a
+[daemonset](https://github.com/metlo-labs/metlo-deploy/blob/main/kubernetes/metlo-daemonset.yaml) or a
+[sidecar](https://github.com/metlo-labs/metlo-deploy/blob/main/kubernetes/metlo-sidecar.yaml).
+
+Even though the traffic is encrypted in transit, Metlo can listen to your traffic by listening to it on the
+loopback interface before it hits the Linkerd proxy.
+
+In addition to replacing `<YOUR_METLO_API_KEY>` in the templates, you also have to tell Metlo to listen
+to the loopback interface and that the traffic is coming from the Linkerd proxy. This is done by
+specifying two env vars:
+
+```yaml
+  - name: metlo
+    image: metlo/agent
+    securityContext:
+      privileged: true
+    env:
+      - name: METLO_HOST
+        value: https://app.metlo.com:8081
+      - name: METLO_KEY
+        value: <YOUR_METLO_API_KEY>
+      - name: INTERFACE
+        value: lo
+      - name: ENABLE_LINKERD
+        value: "true"
+```
