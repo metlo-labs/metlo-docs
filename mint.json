@@ -78,6 +78,7 @@
         "connections/azure-api-management",
         "connections/docker-compose",
         "connections/kubernetes",
+        "connections/linkerd",
         "connections/aws-fargate",
         "connections/burp-suite-plugin"
       ]

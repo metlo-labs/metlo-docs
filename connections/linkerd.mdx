@@ -13,7 +13,7 @@ In addition to replacing `<YOUR_METLO_API_KEY>` in the templates, you also have 
 to the loopback interface and that the traffic is coming from the Linkerd proxy. This is done by
 specifying two env vars:
 
-```
+```yaml
   - name: metlo
     image: metlo/agent
     securityContext:
