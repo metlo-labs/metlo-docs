@@ -50,19 +50,7 @@
         "welcome",
         "getting-started",
         "metlo-self-hosted",
-        "installing-metlos-cli",
-        {
-          "group": "Metlo Juice Shop",
-          "pages": [
-            "juice-shop/overview",
-            "juice-shop/endpoint-discovery",
-            "juice-shop/sql-injection",
-            "juice-shop/bola",
-            "juice-shop/broken-authentication",
-            "juice-shop/vulnerabilities",
-            "juice-shop/protection"
-          ]
-        }
+        "installing-metlos-cli"
       ]
     },
     {
