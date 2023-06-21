@@ -5,9 +5,13 @@ title: "WAF"
 To customize how Metlo handles blocking, you can create your own WAF rules with the ablility to block,
 rate-limit, and tag requests.
 
+### Block
+
 For each type of rule, you can supply different types of conditions that must be met such as
 `Path`, `Method`, and `Request Header`. These conditions can be grouped together to specify if all or
 if just one needs to be true, and you can chain together multiple groups to create a ruleset.
+
+![3808](/images/protection/waf-block.png)
 
 ### Tag
 
