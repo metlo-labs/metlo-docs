@@ -49,9 +49,7 @@
       "pages": [
         "intro/welcome",
         "intro/getting-started",
-        "intro/performance",
-        "intro/security",
-        "intro/pricing"
+        "intro/security"
       ]
     },
     {
