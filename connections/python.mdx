@@ -36,7 +36,7 @@ this :
 ```py Python
 METLO_CONFIG = {
     "API_KEY": "<YOUR_METLO_API_KEY>",
-    "METLO_HOST": "http://<YOUR_METLO_HOST>:8081"
+    "METLO_HOST": "https://app.metlo.com"
 }
 ```
 
@@ -64,7 +64,7 @@ so that metlo captures your traces by default.
 ```py Python
 METLO_CONFIG = {
     "API_KEY": "<YOUR_METLO_API_KEY>",
-    "METLO_HOST": "http://<YOUR_METLO_HOST>:8081",
+    "METLO_HOST": "https://app.metlo.com",
     "DISABLED": <Boolean, default False>
 }
 ```
@@ -79,7 +79,7 @@ from flask import Flask
 from metlo.flask import MetloFlask
 
 app = Flask(__name__)
-MetloFlask(app, "http://<YOUR_METLO_HOST>:8081", "<YOUR_METLO_API_KEY>")
+MetloFlask(app, "https://app.metlo.com", "<YOUR_METLO_API_KEY>")
 ```
 
 The Flask Middleware takes the flask app, Metlo collector url, and the Metlo API
@@ -108,7 +108,7 @@ Metlo can take an optional named parameter (as "disabled":boolean) for disabling
 metlo during testing.
 
 ```py Python
-MetloFlask(app, "http://<YOUR_METLO_HOST>", "<YOUR_METLO_API_KEY>", disabled=<Boolean, default False>)
+MetloFlask(app, "https://app.metlo.com", "<YOUR_METLO_API_KEY>", disabled=<Boolean, default False>)
 ```
 
 #### FastAPI/Starlette
@@ -124,7 +124,7 @@ app = FastAPI()
 
 app.add_middleware(
     ASGIMiddleware,
-    "http://<YOUR_METLO_HOST>",
+    "https://app.metlo.com",
     "<YOUR_METLO_API_KEY>",
 )
 
@@ -156,7 +156,7 @@ metlo during testing.
 ```py Python
 app.use_middleware(
     ASGIMiddleware,
-    "http://<YOUR_METLO_HOST>",
+    "https://app.metlo.com",
     "<YOUR_METLO_API_KEY>",
     disabled=<Boolean, default False>
 )
