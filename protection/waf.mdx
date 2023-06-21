@@ -1,0 +1,27 @@
+---
+title: "WAF"
+---
+
+To customize how Metlo handles blocking, you can create your own WAF rules with the ablility to block,
+rate-limit, and tag requests.
+
+For each type of rule, you can supply different types of conditions that must be met such as
+`Path`, `Method`, and `Request Header`. These conditions can be grouped together to specify if all or
+if just one needs to be true, and you can chain together multiple groups to create a ruleset.
+
+### Tag
+
+For **Tag** rules, you must specify the `Tag Name` that you want applied to any requests that match
+the condition set.
+
+![3808](/images/protection/waf-tag.png)
+
+### Rate Limit
+
+For **Rate Limit** rules, you can specify the type of identifier to be used to determine the uniqueness
+of the requests. The possible identifiers are `IP Address`, `User`, and `Session`; you can select any
+combination of the three. In the `Action` section, you can specify the number of requests (**Threshold**)
+that must match the condition set within a certain period of time (**Interval**) before Metlo starts to block
+any subsequent requests from that unique identifier for the next `x` hours/minutes/seconds (**Duration**).
+
+![3808](/images/protection/waf-rate-limit.png)

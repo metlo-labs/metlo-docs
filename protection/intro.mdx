@@ -1,0 +1,25 @@
+---
+title: "Attack Detection"
+---
+
+Metlo builds a baseline model of how your API generally behaves and is able to catch any anomalous traffic that may
+be an attacker doing reconnaissance or exploiting a 0-Day vulnerability. Metlo Protection detects and blocks attacks like:
+
+* SQL Injection
+* Cross-Site Scripting
+* Server-Side Request Forgery
+* Remote Command Execution
+* Directory Traversal
+* GraphQL Introspection
+* High rates of 401 errors
+
+For any bad actors that are detected, you can easily view information such as when they were detected, their geolocation, and
+a timeline of events that were flagged for that actor.
+
+![3808](/images/protection/attack-overview.png)
+
+### Detections
+
+You can also build your own detections to customize how and what Metlo flags as an attack. 
+
+![3808](/images/protection/detection-editor.png)

@@ -1,0 +1,58 @@
+---
+title: "Email"
+description:
+  "Adding email connectivity to Self hosted Metlo for notifications and password
+  resets"
+---
+
+Metlo relies on email messaging for certain functionality. For example:
+
+- Sending a password reset link to a user
+- Sending alerts over email
+
+While not required, not enabling email messaging will limit these actions, and
+thus Metlo recommends enabling it.
+
+### Configuration
+
+Add the following env vars to `/opt/metlo/.env`:
+
+- `SMTP_SERVER`: Address where the email server resides
+- `SMTP_USER`: User used to authorize emails. Can be different from EMAIL_SENDER
+- `SMTP_PASSWORD`: Password for user used in SMTP_USER
+- `EMAIL_SENDER`: Default user email sender
+- `SELF_LINK`: Link to an accessible address for the metlo frontend
+
+Metlo requires TLS enabled email service providers.
+
+### Example Configuration
+
+#### Sendgrid
+
+```text Sendgrid
+SMTP_SERVER=smtp.sendgrid.net
+SMTP_USER=apikey
+SMTP_PASSWORD=SG.ABCD-EFGHIHJKLMNOPQRSTU.VWXYZ1234567890ab_cdefghijklmnopqrstuvwxyz_
+EMAIL_SENDER=test-user@example.com
+SELF_LINK=http://localhost:3000
+```
+
+#### Mailgun
+
+```text Mailgun
+SMTP_SERVER=smtp.eu.mailgun.org
+SMTP_USER=test-user@example.com
+SMTP_PASSWORD=password
+EMAIL_SENDER=test-user-2@example.com
+SITE_URL=http://localhost:3000
+```
+
+#### Gmail
+
+```text Gmail
+SMTP_SERVER=smtp.gmail.com
+SMTP_USER=test-user@example.com # Email just needs to be managed by google. So domain can be different from gmail
+SMTP_PASSWORD=password
+EMAIL_SENDER=test-user-2@example.com
+SITE_URL=http://localhost:3000
+```

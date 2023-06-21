@@ -4,10 +4,11 @@ title: "Python"
 
 ### Installation
 
-Currently Metlo's Python Agent supports 2 servers:
+Currently Metlo's Python Agent supports 4 servers:
 
 - Django
 - Flask
+- FastAPI/Starlette
 
 It can be installed from `pypi` by running :
 
@@ -39,16 +40,20 @@ METLO_CONFIG = {
 }
 ```
 
-`METLO_CONFIG` can take an optional key-value pair (as "workers":number)
-representing the max number of workers for communicating with Metlo.
-
-```py Python
-METLO_CONFIG = {
-    "API_KEY": "<YOUR_METLO_API_KEY>",
-    "METLO_HOST": "http://<YOUR_METLO_HOST>:8081",
-    "workers": <Integer, default 4>
-}
-```
+Optional Parameters:
+ - COLLECTOR_PORT: Collector port used to capture traces. Defaults to 8081
+ - BACKEND_PORT: Backend port used by Metlo.
+ - LOG_LEVEL: The log level Metlo should log at. The debug levels and above correspond to values used by the python logging module. A special `trace` level is also present, that provides verbose logging info. Can be
+   - trace (5)
+   - debug (10)
+   - info  (20) - Default
+   - warn  (30)
+   - error (40)
+ - ENCRYPTION_KEY: Key used to encrypt sensitive data, such as User session keys
+ - GET_USER: A function that takes in the ASGI scope parameter and returns the user for that request. By default, Metlo collects no information about user of a request.
+ - REJECT_RESPONSE: Function that produces a reponse when Metlo is set to block malicious requests. Expected to return an object of the starlette Response type.
+ - MAX_BODY: Max size of request/response bodies that Metlo should capture. Defaults to 5 KB
+ - DISABLED: Used to disable request blocking by Metlo.
 
 #### Disabling during testing
 
@@ -78,12 +83,24 @@ MetloFlask(app, "http://<YOUR_METLO_HOST>:8081", "<YOUR_METLO_API_KEY>")
 ```
 
 The Flask Middleware takes the flask app, Metlo collector url, and the Metlo API
-Key as parameters. As an optional parameter, a named value can be passed for max
-number of workers for communicating with Metlo.
+Key as parameters. 
 
-```py Python
-MetloFlask(app, "http://<YOUR_METLO_HOST>:8081", "<YOUR_METLO_API_KEY>", workers=<Integer, default 4>)
-```
+Metlo for Flask can be configured further with the following parameters:
+
+ - BACKEND_PORT: Backend port used by Metlo.
+ - COLLECTOR_PORT: Collector port used to capture traces. Defaults to 8081
+ - LOG_LEVEL: The log level Metlo should log at. The debug levels and above correspond to values used by the python logging module. A special `trace` level is also present, that provides verbose logging info. Can be
+ -     trace (5)
+ -     debug (10)
+ -     info (20) - Default
+ -     warn (30)
+ -     error (40)
+ - ENCRYPTION_KEY: Key used to encrypt sensitive data, such as User session keys
+ - GET_USER: A function that takes in the ASGI scope parameter and returns the user for that request. By default, Metlo collects no information about user of a request.
+ - REJECT_RESPONSE: Function that produces a reponse when Metlo is set to block malicious requests. Expected to return an object of the starlette Response type.
+ - MAX_BODY: Max size of request/response bodies that Metlo should capture. Defaults to 5 KB
+ - disabled: Used to disable request blocking by Metlo.
+
 
 #### Disabling during testing
 
@@ -91,5 +108,56 @@ Metlo can take an optional named parameter (as "disabled":boolean) for disabling
 metlo during testing.
 
 ```py Python
-MetloFlask(app, "http://<YOUR_METLO_HOST>:8081", "<YOUR_METLO_API_KEY>", disabled=<Boolean, default False>)
+MetloFlask(app, "http://<YOUR_METLO_HOST>", "<YOUR_METLO_API_KEY>", disabled=<Boolean, default False>)
+```
+
+#### FastAPI/Starlette
+
+Once installed, Metlo middleware can be added simply like :
+
+```py Python
+from fastapi import FastAPI
+
+from metlo.fastapi import ASGIMiddleware
+
+app = FastAPI()
+
+app.add_middleware(
+    ASGIMiddleware,
+    "http://<YOUR_METLO_HOST>",
+    "<YOUR_METLO_API_KEY>",
+)
+
+...
+```
+
+The FastAPI/Starlette Middleware takes the Metlo collector url, and the Metlo API
+Key as parameters. Optional parameters can then be further configured as:
+
+- backend_port: Backend port used by Metlo.
+- collector_port: Collector port used to capture traces. Defaults to 8081
+- log_level: The log level Metlo should log at. The debug levels and above correspond to values used by the python logging module. A special `trace` level is also present, that provides verbose logging info. Can be
+  - trace (5)
+  - debug (10)
+  - info  (20) - Default
+  - warn  (30)
+  - error (40)
+- encryption_key: Key used to encrypt sensitive data, such as User session keys
+- get_user A function that takes in the ASGI scope parameter and returns the user for that request. By default, Metlo collects no information about user of a request.
+- reject_response: Function that produces a reponse when Metlo is set to block malicious requests. Expected to return an object of the starlette Response type.
+- max_body: Max size of request/response bodies that Metlo should capture. Defaults to 5 KB
+- disable: Used to disable request blocking by Metlo.
+
+#### Disabling during testing
+
+Metlo can take an optional named parameter (as "disabled":boolean) for disabling
+metlo during testing.
+
+```py Python
+app.use_middleware(
+    ASGIMiddleware,
+    "http://<YOUR_METLO_HOST>",
+    "<YOUR_METLO_API_KEY>",
+    disabled=<Boolean, default False>
+)
 ```

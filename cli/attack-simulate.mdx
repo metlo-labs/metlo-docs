@@ -1,0 +1,18 @@
+---
+title: "Simulate an Attack"
+---
+
+You can simulate attacks against your endpoints that Metlo has identified by using Metlo's CLI.
+Simply run the following command and substitue in the hostname you want to run the tests for.
+
+```bash Bash
+metlo fuzz -h <YOUR_HOST>
+```
+
+
+| Argument | Flag | Description |
+| -------- | ---- | ----------- |
+| Host | -h, --host | The host to run the tests for |
+| Verbose | -v, --verbose | Print detailed test errors |
+| Envfile | --envfile &lt;string&gt; | Path for your env file |
+| Env | --env &lt;key&gt;=&lt;value&gt; | Environment variables |

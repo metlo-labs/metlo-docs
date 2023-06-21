@@ -1,0 +1,30 @@
+---
+title: "Security"
+---
+
+## E2EE
+
+By default, Metlo redacts your API trace request and response bodies, headers and query parameters.
+If you enable "Full Trace Capture" the whole API trace is sent to our servers but its end-to-end encrypted.
+The flow looks like this:
+
+1. A public/private key pair is generated locally in your web browser.
+2. You download your private key and the public key is sent to Metlo's backend.
+3. In your own cloud, for endpoints that have "Full Trace Capture" enabled, Metlo pulls the public key from our backend and encrypts the traces before sending them.
+4. When viewing traces encrypted data is sent to your browser and your local private key is used to decrypt them.
+
+## Data Processing
+
+Most of your data is redacted befor its sent to Metlo's servers. All of our processing and attack detection happens in your servers in our agent.
+The only data we recieve is the following metadata:
+
+1. Trace Paths
+2. [If Enabled] The User ID a request is associated with
+2. The shape of your request and response bodies (parameter names and types)
+3. Detected Attacks
+
+If you do enable "Full Trace Capture" for any specific endpoint we will send the whole trace to our servers but the data will be end-to-end encrypted.  
+
+## Data Retention
+
+Most metadata sent to Metlo is deleted after 7 days. Some metadata is kept in backups, which are deleted after 30 days.

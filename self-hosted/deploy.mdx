@@ -1,0 +1,42 @@
+---
+title: "Deploy"
+---
+
+We highly recommend using [Metlo Cloud](/getting-started) as its much easier to
+get started and stay up to date! However, if you're a large company or need an
+air-gapped system you can self host Metlo as well.
+
+### 1. Sign up on our Self Hosted Portal
+
+You can sign up for our self hosted product on
+[https://my.metlo.com](https://my.metlo.com). This will automatically generate a
+license key you can use for your self-hosted installation.
+
+![3808](/images/my_metlo_screenshot.png)
+
+### 2. Deploy Metlo
+
+You can deploy Metlo Self Hosted using one of the deployment methods in the app.
+We have simple deployment methods for AWS, GCP and Azure as well as instructions
+on how to deploy to Docker. It should take less than 10 minutes to deploy Metlo
+in your own cloud!
+
+### 3. Open Ports
+
+Metlo's connectors send traffic to port 8081. Make sure to configure your
+instance's firewall rules so port 8081 is open to the machines you want to
+monitor.
+
+### 4. Updating Metlo
+
+To update to the latest version of Metlo you can ssh into your instance and run
+`sudo metlo-deploy update`.
+
+You can set up automatic updates by running `sudo crontab -e` and adding the
+following to the file:
+
+```
+PATH=/bin:/usr/bin:/usr/local/bin 0 */4 * * * metlo-deploy update >> /var/log/metlo-deploy-update.log 2>&1
+```
+
+This makes sure that you always have the latest version of Metlo installed!
