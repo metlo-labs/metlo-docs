@@ -5,14 +5,20 @@ title: "WAF"
 To customize how Metlo handles blocking, you can create your own WAF rules with the ablility to block,
 rate-limit, and tag requests.
 
+### Block
+
 For each type of rule, you can supply different types of conditions that must be met such as
-`Path`, `Method`, and `Request Header`. These conditions can be grouped together to specify if all or
-if just one needs to be true, and you can chain together multiple groups to create a ruleset.
+`Path`, `IP Address`, and `Request Header`. These conditions can be grouped together to specify if all or
+if just one needs to be true, and you can chain together multiple groups to create a ruleset. For example,
+the block rule below will block all requests that originate from the IP Address **176.185.161.186**.
+
+![3808](/images/protection/waf-block.png)
 
 ### Tag
 
 For **Tag** rules, you must specify the `Tag Name` that you want applied to any requests that match
-the condition set.
+the condition set. The tag rule below will tag all requests to the login endpoint that return 401 status code
+with `Unauthorized_Login`.
 
 ![3808](/images/protection/waf-tag.png)
 
@@ -22,6 +28,8 @@ For **Rate Limit** rules, you can specify the type of identifier to be used to d
 of the requests. The possible identifiers are `IP Address`, `User`, and `Session`; you can select any
 combination of the three. In the `Action` section, you can specify the number of requests (**Threshold**)
 that must match the condition set within a certain period of time (**Interval**) before Metlo starts to block
-any subsequent requests from that unique identifier for the next `x` hours/minutes/seconds (**Duration**).
+any subsequent requests from that unique identifier for the next `x` hours/minutes/seconds (**Duration**). The
+rate-limit rule below will block any unique IP addresses that attempt more than 10 login requests within
+a minute for the next 10 minutes.
 
 ![3808](/images/protection/waf-rate-limit.png)
