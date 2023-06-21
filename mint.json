@@ -47,10 +47,28 @@
     {
       "group": "Introduction",
       "pages": [
-        "welcome",
-        "getting-started",
-        "metlo-self-hosted",
-        "installing-metlos-cli"
+        "intro/welcome",
+        "intro/getting-started",
+        "intro/performance",
+        "intro/security",
+        "intro/pricing"
+      ]
+    },
+    {
+      "group": "Inventory",
+      "pages": [
+        "inventory/endpoints",
+        "inventory/sensitive-data",
+        "inventory/configuration",
+        "inventory/custom-sensitive-data"
+      ]
+    },
+    {
+      "group": "Protection",
+      "pages": [
+        "protection/intro",
+        "protection/attack-context",
+        "protection/waf"
       ]
     },
     {
@@ -69,17 +87,6 @@
         "connections/linkerd",
         "connections/aws-fargate",
         "connections/burp-suite-plugin"
-      ]
-    },
-    {
-      "group": "Inventory",
-      "pages": [
-        "inventory/endpoints",
-        "inventory/sensitive-data",
-        "inventory/vulnerabilities",
-        "inventory/configuration",
-        "inventory/custom-sensitive-data",
-        "inventory/uploading-open-api-specs"
       ]
     },
     {
@@ -108,34 +115,29 @@
       ]
     },
     {
-      "group": "Alerts",
-      "pages": ["alerts/alerts", "alerts/webhooks"]
-    },
-    {
-      "group": "Protection",
-      "pages": ["protection", "attack-context"]
-    },
-    {
       "group": "Settings",
-      "pages": ["settings/metlo-config", "settings/email"]
-    },
-    {
-      "group": "Debugging",
-      "pages": ["debugging-traffic-mirroring", "debugging-metlo-self-hosted"]
-    },
-    {
-      "group": "Deploy Open Source",
       "pages": [
-        "deploy-open-source/aws",
-        "deploy-open-source/gcp",
-        "deploy-open-source/azure",
-        "deploy-open-source/docker",
-        "deploy-open-source/docker-local"
+        "settings/metlo-config",
+        "settings/webhooks",
+        "settings/uploading-open-api-specs"
       ]
     },
     {
-      "group": "Privacy",
-      "pages": ["privacy/data-retention", "privacy/data-egress"]
+      "group": "CLI",
+      "pages": [
+        "cli/installing-metlos-cli",
+        "cli/attack-simulate"
+      ]
+    },
+    {
+      "group": "Self Hosted",
+      "pages": [
+        "self-hosted/deploy",
+        "self-hosted/debugging",
+        "self-hosted/email",
+        "self-hosted/data-egress",
+        "self-hosted/opensource"
+      ]
     },
     {
       "group": "Contribute",
