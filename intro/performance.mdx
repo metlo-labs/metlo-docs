@@ -2,4 +2,18 @@
 title: "Performance"
 ---
 
-asdf
+Metlo's agent is designed to be performant and reliable. We did this by writing all of our common agent logic in a shared rust library.
+This guarentees that all of our code is performant and memory safe.
+Each of our agent has bindings to this native library.
+
+In addition to being written in rust, our agent asynchrously pulls models that specify how to block.
+This minimizes the additional latency added to each request.
+
+To test each agent we send requests ranging from 1KB to 1MB at ~500rps for 24 hours against a test server.
+These are the maximum system metrics measured:
+
+* Max CPU Usage - `1%`
+* Max Memory Usage - `50MB`
+* Max Latency Increase - `0.2ms`
+
+In practice Metlo should use much less resources that this.
