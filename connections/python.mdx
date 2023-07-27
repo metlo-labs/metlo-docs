@@ -124,15 +124,15 @@ app = FastAPI()
 
 app.add_middleware(
     ASGIMiddleware,
-    "https://app.metlo.com",
-    "<YOUR_METLO_API_KEY>",
+    host="https://app.metlo.com",
+    api_key="<YOUR_METLO_API_KEY>",
 )
 
 ...
 ```
 
 The FastAPI/Starlette Middleware takes the Metlo collector url, and the Metlo API
-Key as parameters. Optional parameters can then be further configured as:
+Key as keyword arguments. Optional arguments can then be further configured as:
 
 - backend_port: Backend port used by Metlo.
 - collector_port: Collector port used to capture traces. Defaults to 8081
