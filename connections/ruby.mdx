@@ -1,0 +1,87 @@
+---
+title: "Ruby"
+---
+
+### Installation
+
+Currently Metlo's Ruby Agent supports frameworks compatible with rack middleware. An incomplete set of frameworks that support this are:
+ 
+ - Puma
+ - Sinatra
+ - Iodine
+ - Unicorn
+ - uWSGI
+
+
+It can be installed from `gem` by running :
+
+```bash Shell
+gem install metlo
+```
+Alternatively, on a bundle install,
+```bash Shell
+bundle add metlo
+```
+
+*Note*: Metlo uses platform native gems. Unfortunately, older versions of the gem tool don't fully support fetching the correct platform's gem. We recommend verifying that that the lockfile generated on install contains the correct gem. If upgrading the gem tool isn't an option, then the gem can be insatlled manually as shown [here](https://gemfury.com/help/install-gems/).
+For example,
+```
+    gem 'metlo', :platforms :x86_64-linux
+```
+
+
+### Configuration
+
+#### Rails
+
+Once installed, Metlo's middleware can be added by adding it to the middlewares list like so:
+(in the projects `settings.py`) like so:
+
+```ruby Ruby
+require "metlo"
+...
+...
+config.middleware.use Metlo::Metlo, metlo_url: <METLO_URL>, api_key: <API_KEY>
+```
+
+Optional Parameters:
+ - `:backend_port` : Backend port used by Metlo
+ - `:collector_port` : Collector port used to capture traces. Defaults to 8081
+ - `:encryption_key` : Key used to encrypt sensitive data, such as User session keys
+ - `:log_level` : The log level Metlo should log at. The debug levels and above correspond to values used by the python logging module. A special `trace` level is also present, that provides verbose logging info. Can be
+   - "trace"
+   - "debug"
+   - "info"
+   - "warn"
+   - "error"
+ - `:block_response` : Function that produces a reponse when Metlo is set to block malicious requests. Expected to return an object of the starlette Response type.
+ - `:get_user` : A function that takes in the ASGI scope parameter and returns the user for that request. By default, Metlo collects no information about user of a request.
+
+Optional params can be supplied as keyword arguments with the keyword being the symbol shown above.
+
+#### Sinatra
+
+Once installed, Metlo's middleware can be added by simply doing:
+(in the projects `settings.py`) like so:
+
+```ruby
+require "metlo"
+... 
+... 
+use Metlo::Metlo, metlo_url: <METLO_URL>, api_key: <API_KEY>
+```
+
+Optional Parameters:
+ - `:backend_port` : Backend port used by Metlo
+ - `:collector_port` : Collector port used to capture traces. Defaults to 8081
+ - `:encryption_key` : Key used to encrypt sensitive data, such as User session keys
+ - `:log_level` : The log level Metlo should log at. The debug levels and above correspond to values used by the python logging module. A special `trace` level is also present, that provides verbose logging info. Can be
+   - trace
+   - debug
+   - info
+   - warn
+   - error
+ - `:block_response` : Function that produces a reponse when Metlo is set to block malicious requests. Expected to return an object of the starlette Response type.
+ - `:get_user` : A function that takes in the ASGI scope parameter and returns the user for that request. By default, Metlo collects no information about user of a request.
+
+Optional params can be supplied as keyword arguments with the keyword being the symbol shown above.

@@ -75,6 +75,7 @@
       "pages": [
         "connections/nodejs",
         "connections/python",
+        "connections/ruby",
         "connections/java",
         "connections/go",
         "connections/nginx",
