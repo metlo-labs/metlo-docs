@@ -13,20 +13,25 @@ Currently Metlo's Ruby Agent supports frameworks compatible with rack middleware
  - uWSGI
 
 
-It can be installed from `gem` by running :
+It can be installed from `gem` by running:
 
 ```bash Shell
 gem install metlo
 ```
-Alternatively, on a bundle install,
+Alternatively, on a bundle install:
 ```bash Shell
 bundle add metlo
 ```
 
-*Note*: Metlo uses platform native gems. Unfortunately, older versions of the gem tool don't fully support fetching the correct platform's gem. We recommend verifying that that the lockfile generated on install contains the correct gem. If upgrading the gem tool isn't an option, then the gem can be installed manually as shown [here](https://gemfury.com/help/install-gems/).
-For example,
+**Note**: Metlo uses platform native gems. Unfortunately, older versions of the gem tool don't fully support fetching the correct platform's gem. We recommend verifying that that the lockfile generated on install contains the correct gem. If upgrading the gem tool isn't an option, then the gem can be installed manually.
+For example, in a gemfile:
+```ruby Gemfile
+gem 'metlo', :platforms :x86_64-linux
 ```
-    gem 'metlo', :platforms :x86_64-linux
+
+Or, through the shell:
+```bash Shell
+gem install metlo --platform x86_64-linux
 ```
 
 
@@ -34,8 +39,7 @@ For example,
 
 #### Rails
 
-Once installed, Metlo's middleware can be added by adding it to the middlewares list like so:
-(in the projects `settings.py`) like so:
+Once installed, Metlo's middleware can be added by adding it to the middlewares list (generally in the `application.rb` file) like so:
 
 ```ruby Ruby
 require "metlo"
@@ -54,15 +58,14 @@ Optional Parameters:
    - "info"
    - "warn"
    - "error"
- - `:block_response` : Function that produces a reponse when Metlo is set to block malicious requests. Expected to return an object of the starlette Response type.
- - `:get_user` : A function that takes in the ASGI scope parameter and returns the user for that request. By default, Metlo collects no information about user of a request.
+ - `:block_response` : Function that produces a reponse when Metlo is set to block malicious requests. It takes in a param for the [env](https://github.com/rack/rack/blob/main/SPEC.rdoc#label-The+Environment) and expects a tuple containing the status code, response headers, and response (as an array of strings).
+ - `:get_user` : A function that takes in the [rack env](https://github.com/rack/rack/blob/main/SPEC.rdoc#label-The+Environment) scope parameter and returns the user for that request as a string. By default, Metlo collects no information about user of a request.
 
-Optional params can be supplied as keyword arguments with the keyword being the symbol shown above.
+Optional params can be supplied as keyword arguments. The key being the symbol shown above.
 
 #### Sinatra
 
 Once installed, Metlo's middleware can be added by simply doing:
-(in the projects `settings.py`) like so:
 
 ```ruby
 require "metlo"
@@ -76,12 +79,12 @@ Optional Parameters:
  - `:collector_port` : Collector port used to capture traces. Defaults to 8081
  - `:encryption_key` : Key used to encrypt sensitive data, such as User session keys
  - `:log_level` : The log level Metlo should log at. The debug levels and above correspond to values used by the python logging module. A special `trace` level is also present, that provides verbose logging info. Can be
-   - trace
-   - debug
-   - info
-   - warn
-   - error
- - `:block_response` : Function that produces a reponse when Metlo is set to block malicious requests. Expected to return an object of the starlette Response type.
- - `:get_user` : A function that takes in the ASGI scope parameter and returns the user for that request. By default, Metlo collects no information about user of a request.
+   - "trace"
+   - "debug"
+   - "info"
+   - "warn"
+   - "error"
+ - `:block_response` : Function that produces a reponse when Metlo is set to block malicious requests. It takes in a param for the [env](https://github.com/rack/rack/blob/main/SPEC.rdoc#label-The+Environment) and expects a tuple containing the status code, response headers, and response (as an array of strings).
+ - `:get_user` : A function that takes in the [rack env](https://github.com/rack/rack/blob/main/SPEC.rdoc#label-The+Environment) scope parameter and returns the user for that request as a string. By default, Metlo collects no information about user of a request.
 
-Optional params can be supplied as keyword arguments with the keyword being the symbol shown above.
+Optional params can be supplied as keyword arguments. The key being the symbol shown above.
